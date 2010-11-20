@@ -23,27 +23,39 @@ import org.jarco.code.external.IRepositorySPIRef;
 import org.jarco.code.internal.CodeRepositoryInternal;
 import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableMap;
+import org.jarco.configuration.ConfigurationSet;
 import org.jarco.control.report.DependenciesReport;
 import org.jarco.control.specifications.model.FM;
+import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class MavenRef implements IRepositorySPIRef
+public class MavenRef implements IRepositorySPIRef, IExposableAsANode
 {
 	
-	private DependenciesReport pw;
+//	private DependenciesReport pw;
+	private static DependenciesReport pw;
 	
-	public MavenRef(String repoPath,DependenciesReport pw)
+	public static void registerDependenciesReport(DependenciesReport _pw)
 	{
-		this.pw=pw;
+		pw=_pw;
+	}
+	
+//	public MavenRef(String repoPath,DependenciesReport pw)
+	public MavenRef(String repoPath)
+	{
+//		this.pw=pw;
 		this.repoPath = repoPath;
 	}
-	public MavenRef(String repoPath, DependenciesReport pw, String group, String component, String version,
+	public MavenRef(String repoPath, String group, String component, String version,
 			String extension) {
-		this.pw=pw;
+//		public MavenRef(String repoPath, DependenciesReport pw, String group, String component, String version,
+//				String extension) {
+//		this.pw=pw;
 		this.group=group;
 		this.component=component;
 		this.version=version;
@@ -72,6 +84,29 @@ public class MavenRef implements IRepositorySPIRef
 	@FM(kind=FM.kind.component)
 	private String repoPath;
 
+	  public static MavenRef fromXml(FromXmlFactory f, Element e)
+	  {
+		  String repoPath = e.getAttribute("repo-path");
+		  String group = e.getAttribute("group");
+		  String component = e.getAttribute("component");
+		  String version = e.getAttribute("version");
+		  String extension = e.getAttribute("extension");
+//		  MavenRef mr = new MavenRef(repoPath,pw,group,component,version,extension);
+		  MavenRef mr = new MavenRef(repoPath,group,component,version,extension);
+		  return mr;
+	  }
+	  public String toXml()
+	  {
+		StringBuffer sb=new StringBuffer();
+		sb.append("<maven-ref ");
+		sb.append("group=\""+group+"\" ");
+		sb.append("component=\""+component+"\" ");
+		sb.append("version=\""+version+"\" ");
+		sb.append("extension=\""+extension+"\" ");
+		sb.append("repo-path=\""+repoPath+"\" ");
+		sb.append("/>");
+		return sb.toString();
+	  }
 //	private String archiveFileName;
 //	private String repoPath;
 //	private String pomFileName;
@@ -161,7 +196,8 @@ public class MavenRef implements IRepositorySPIRef
 //						continue loop_dependency;
 //					}
 				}
-				MavenRef mr = new MavenRef(repoPath,pw);
+//				MavenRef mr = new MavenRef(repoPath,pw);
+				MavenRef mr = new MavenRef(repoPath);
 				mr.group=e.getElementsByTagName("groupId").item(0).getTextContent();
 				if(mr.group.startsWith("${"))
 				{
@@ -401,7 +437,8 @@ public class MavenRef implements IRepositorySPIRef
 			String groupId = e_parent.getElementsByTagName("groupId").item(0).getTextContent();
 			String artifactId = e_parent.getElementsByTagName("artifactId").item(0).getTextContent();
 			String version = e_parent.getElementsByTagName("version").item(0).getTextContent();
-			mr = new MavenRef(repoPath,pw,groupId,artifactId,version,"pom");
+//			mr = new MavenRef(repoPath,pw,groupId,artifactId,version,"pom");
+			mr = new MavenRef(repoPath,groupId,artifactId,version,"pom");
 		}
 		return mr;
     }
@@ -437,4 +474,9 @@ public class MavenRef implements IRepositorySPIRef
     {
     	return extension;
     }
+
+	@Override
+	public String toLabel() {
+		return toString();
+	}
 }

@@ -15,8 +15,8 @@ import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.model.AnnotationPredicate;
 import org.jarco.control.specifications.model.ChainedProductionRule;
 import org.jarco.control.specifications.model.ContextAffectationFromProperties;
-import org.jarco.control.specifications.model.ContextAffectationFromXPath;
-import org.jarco.control.specifications.model.FilterFromXPath;
+import org.jarco.control.specifications.model.ContextAffectationFromXpath;
+import org.jarco.control.specifications.model.FilterFromXpath;
 import org.jarco.control.specifications.model.FollowAssertion;
 import org.jarco.control.specifications.model.FollowProductionRule;
 import org.jarco.control.specifications.model.ModifierPredicate;
@@ -104,7 +104,7 @@ public class PetClinicSpecification extends Specification implements IPetClinicT
 
 									addChildSpec(new Specification<IField>(new FollowProductionRule<IField>("DeclaredFields"))
 											{{
-												addAssertion(new PredicateAssertion<IField>("ALL FIELDS IN DAO SHOULD BE STATIC & FINAL", new ModifierPredicate<IField>(EModifier._static,EModifier._final)));
+												addAssertion(new PredicateAssertion<IField>("ALL FIELDS IN DAO SHOULD BE STATIC AND FINAL", new ModifierPredicate<IField>(EModifier._static,EModifier._final)));
 											}});
 								}});
 							}});
@@ -163,9 +163,9 @@ public class PetClinicSpecification extends Specification implements IPetClinicT
 					addChildSpec(new Specification<IXmlDocument>(new FollowProductionRule<IXmlDocument>("XmlDocuments"),new NamePredicate<IXmlDocument>("conf-business/dao-context.xml"))
 					{{
 						addChildSpec(new Specification<IXmlElement>(new FollowProductionRule<IXmlElement>("ChildNodesForXPath", "../beans/bean" ),
-									new FilterFromXPath<IXmlElement>("./@id","","dao","Dao"))
+									new FilterFromXpath<IXmlElement>("./@id","","dao","Dao"))
 								{{
-									addConsequence(new ContextAffectationFromXPath<IXmlElement>("reference2classname","./@class"));
+									addConsequence(new ContextAffectationFromXpath<IXmlElement>("reference2classname","./@class"));
 									addChildSpec(new Specification<IClass>(new ChainedProductionRule<IClass>().
 										chain(new FollowProductionRule<ICodeRepository>("Repository")).
 										chain(new FollowProductionRule<IClass>("ClassByName","${reference2classname}")))
@@ -179,7 +179,7 @@ public class PetClinicSpecification extends Specification implements IPetClinicT
 							{{
 								addChildSpec(new Specification<IXmlElement>(new FollowProductionRule<IXmlElement>("ChildNodesForXPath", "../beans/bean/property[@name=\"annotatedClasses\"]/list/value" ))
 										{{
-											addConsequence(new ContextAffectationFromXPath<IXmlElement>("reference2classname","./text()"));
+											addConsequence(new ContextAffectationFromXpath<IXmlElement>("reference2classname","./text()"));
 											addChildSpec(new Specification<IClass>(new ChainedProductionRule<IClass>().
 												chain(new FollowProductionRule<ICodeRepository>("Repository")).
 												chain(new FollowProductionRule<IClass>("ClassByName","${reference2classname}")))
@@ -193,7 +193,7 @@ public class PetClinicSpecification extends Specification implements IPetClinicT
 							{{
 								addChildSpec(new Specification<IXmlElement>(new FollowProductionRule<IXmlElement>("ChildNodesForXPath", "../beans/bean"))
 										{{
-											addConsequence(new ContextAffectationFromXPath<IXmlElement>("reference2classname","./@class"));
+											addConsequence(new ContextAffectationFromXpath<IXmlElement>("reference2classname","./@class"));
 											addChildSpec(new Specification<IClass>(new ChainedProductionRule<IClass>().
 												chain(new FollowProductionRule<ICodeRepository>("Repository")).
 												chain(new FollowProductionRule<IClass>("ClassByName","${reference2classname}")))
@@ -220,9 +220,9 @@ public class PetClinicSpecification extends Specification implements IPetClinicT
 					addChildSpec(new Specification<IXmlDocument>(new FollowProductionRule<IXmlDocument>("XmlDocuments"),new NamePredicate<IXmlDocument>("WEB-INF/classes/conf-web/struts-context.xml"))
 							{{
 								addChildSpec(new Specification<IXmlElement>(new FollowProductionRule<IXmlElement>("ChildNodesForXPath", "../beans/bean" ),
-										new FilterFromXPath<IXmlElement>("./@id","","action","Action"))
+										new FilterFromXpath<IXmlElement>("./@id","","action","Action"))
 										{{
-											addConsequence(new ContextAffectationFromXPath<IXmlElement>("reference2classname","./@class"));
+											addConsequence(new ContextAffectationFromXpath<IXmlElement>("reference2classname","./@class"));
 											addChildSpec(new Specification<IClass>(new ChainedProductionRule<IClass>().
 												chain(new FollowProductionRule<ICodeRepository>("Repository")).
 												chain(new FollowProductionRule<IClass>("ClassByName","${reference2classname}")))

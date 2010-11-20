@@ -7,10 +7,10 @@ import java.util.regex.Matcher;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.INamed;
 import org.jarco.collections.ImmutableMap;
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.swing.IExposableAsANode;
+import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 public class NamePredicate<T extends ICodeElement> implements IPredicate<T>, IExposableAsANode {

@@ -9,11 +9,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.model.Specification;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.test.petclinic.IPetClinicTagConstants;
 import org.jarco.test.petclinic.PetClinicSpecification;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.SpecificationFromXmlFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -30,7 +31,7 @@ public class XmlTest {
 			bw.close();
 		}
 		
-		FromXmlFactory fxf = new FromXmlFactory(tr);
+		FromXmlFactory fxf = new SpecificationFromXmlFactory(tr);
 		
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();

@@ -13,7 +13,7 @@ public interface ITagType extends INamed{
 	public static final String ROLE_TYPE_NAME = "_TYPE_NAME_";
 	public String getName();
 	public ImmutableList<ITag> getTags();
-	public ImmutableNamedList<ITagAttribute> getAttributes();
+	public ImmutableNamedList<ITagAttributeType> getAttributes();
 	public ITag newInstance(ICodeElement element);
 	public ITagType newAttribute(String string);
 }

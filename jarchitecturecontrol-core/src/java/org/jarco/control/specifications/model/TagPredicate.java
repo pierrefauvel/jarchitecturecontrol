@@ -6,14 +6,15 @@ import org.jarco.code.external.IClass;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.collections.ImmutableNamedMap;
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.swing.IExposableAsANode;
+import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITag;
-import org.jarco.tags.external.ITagAttribute;
+import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.SpecificationFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -34,7 +35,7 @@ public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExp
 		this.ty=ty;
 		for(String[] ai : at)
 		{
-			ITagAttribute a = ty.getAttributes().get(ai[0]);
+			ITagAttributeType a = ty.getAttributes().get(ai[0]);
 			if(a==null) throw new RuntimeException("PF57 Unexpected attribute "+ai[0]+" in type "+ty);
 		};
 	}
@@ -50,7 +51,7 @@ public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExp
 			{
 				String an = ai[0];
 				String av = ai[1];
-				ITagAttribute at = tt.getAttributes().get(an);
+				ITagAttributeType at = tt.getAttributes().get(an);
 				if(at==null)
 					throw new RuntimeException("PF60 Unexpected attribute "+an+" in tag of type "+ty.getName());
 				String v = ta.getAttributeValues().get(at);
@@ -112,7 +113,7 @@ public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExp
 			nv[i][1]=ei.getAttribute("value");
 			}
 		}
-		ITagRepository repo = f.getTagRepository();
+		ITagRepository repo = ((SpecificationFromXmlFactory)f).getTagRepository();
 		ITagType ttype = repo.getTagTypes().get(type);
 //		System.out.println("PF71 "+type);
 //		for(ITagType itt : repo.getTagTypes())

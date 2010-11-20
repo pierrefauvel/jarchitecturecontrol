@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import org.jarco.swing.JTreeEditor;
-import org.jarco.swing.ModelInterface;
+import org.jarco.swing.tree.JTreeEditor;
+import org.jarco.swing.tree.ModelInterface;
 import org.xml.sax.SAXException;
 
 public class TreeEditorTestMain {

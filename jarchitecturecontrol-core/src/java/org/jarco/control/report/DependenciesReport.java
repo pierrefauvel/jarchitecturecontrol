@@ -13,6 +13,8 @@ public class DependenciesReport {
 	
 	public DependenciesReport(FileWriter fileWriter) {
 		pw=new PrintWriter(fileWriter);
+		
+		MavenRef.registerDependenciesReport(this);
 	}
 
 	public void close() {

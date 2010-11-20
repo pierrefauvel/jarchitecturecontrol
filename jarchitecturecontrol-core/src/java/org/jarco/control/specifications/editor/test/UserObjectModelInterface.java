@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jarco.swing.ModelInterface;
+import org.jarco.swing.tree.ModelInterface;
 
 public class UserObjectModelInterface  implements ModelInterface{
 

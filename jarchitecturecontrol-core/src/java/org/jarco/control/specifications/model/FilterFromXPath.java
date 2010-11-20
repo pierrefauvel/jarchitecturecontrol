@@ -5,14 +5,14 @@ import java.util.Map;
 
 import org.jarco.code.external.IXmlElement;
 import org.jarco.collections.ImmutableMap;
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.swing.IExposableAsANode;
+import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 //TODO V1.1 Dé-dupliquer avec NamePredicate
-public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IExposableAsANode {
+public class FilterFromXpath<T extends IXmlElement> implements IPredicate<T>, IExposableAsANode {
 
 	@FM(kind=kind.component)
 	private String xpath;
@@ -26,12 +26,12 @@ public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IE
 	private String exactMatch;
 	
 	//pour l'éditeur graphique
-	public FilterFromXPath()
+	public FilterFromXpath()
 	{
 		
 	}
 	
-	public FilterFromXPath(String xpath,String prefix, String variableName, String suffix)
+	public FilterFromXpath(String xpath,String prefix, String variableName, String suffix)
 	{
 		this.xpath=xpath;
 		this.prefix=prefix;
@@ -39,7 +39,7 @@ public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IE
 		this.suffix=suffix;
 		this.exactMatch=null;
 	}
-	public FilterFromXPath(String xpath,String exactMatch)
+	public FilterFromXpath(String xpath,String exactMatch)
 	{
 		this.xpath=xpath;
 		this.prefix=null;
@@ -92,20 +92,20 @@ public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IE
 			return "<html><b>xpath</b>="+xpath+" <b>prefix</b>="+prefix+" <b>variable-name</b>="+variableName+" <b>suffix</b>="+suffix+"</html>";
 	}
 
-	public FilterFromXPath fromXml(FromXmlFactory f, Element e)
+	public static FilterFromXpath fromXml(FromXmlFactory f, Element e)
 	{
 		String name = e.getAttribute("name");
 		String xpath = e.getAttribute("xpath");
 		if(name!=null)
 		{
-			return new FilterFromXPath(xpath,name);
+			return new FilterFromXpath(xpath,name);
 		}
 		else
 		{
 			String name_prefix = e.getAttribute("name-prefix");
 			String variable_name = e.getAttribute("variable-name");
 			String suffix = e.getAttribute("suffix");
-			return new FilterFromXPath(xpath,name_prefix,variable_name,suffix);
+			return new FilterFromXpath(xpath,name_prefix,variable_name,suffix);
 		}
 	}
 }

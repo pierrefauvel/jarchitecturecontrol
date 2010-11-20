@@ -8,14 +8,14 @@ import javax.xml.xpath.XPathFactory;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.ElementAndContext;
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.swing.IExposableAsANode;
+import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ContextAffectationFromXPath<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
+public class ContextAffectationFromXpath<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
 
 	@FM(kind=kind.component)
 	private String propertyName;
@@ -23,12 +23,12 @@ public class ContextAffectationFromXPath<T extends ICodeElement> implements ICon
 	private String str_expression;
 	
 	//pour l'éditeur graphique
-	public ContextAffectationFromXPath()
+	public ContextAffectationFromXpath()
 	{
 	}
 	
 	//new ContextAffectationFromXPath("classname","./@class")
-	public ContextAffectationFromXPath( String propertyName, String xpath)
+	public ContextAffectationFromXpath( String propertyName, String xpath)
 	{
 		this.propertyName = propertyName;
 		this.str_expression = xpath;
@@ -50,7 +50,7 @@ public class ContextAffectationFromXPath<T extends ICodeElement> implements ICon
 		return sb.toString();
 	}
 
-	public ContextAffectationFromXPath fromXml (FromXmlFactory f, Element e)
+	public static ContextAffectationFromXpath fromXml (FromXmlFactory f, Element e)
 	{
 		String pn = e.getAttribute("context-property");
 		String xpath = null;
@@ -63,7 +63,7 @@ public class ContextAffectationFromXPath<T extends ICodeElement> implements ICon
 				break loop;
 			}
 		}
-		return new ContextAffectationFromXPath(pn,xpath);
+		return new ContextAffectationFromXpath(pn,xpath);
 	}
 	
 	public String toString()

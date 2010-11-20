@@ -57,7 +57,7 @@ public class MethodInternal extends ACodeElementInternal implements IMethod {
 	private java.lang.reflect.Method methodReflectPeer;
 	private java.lang.reflect.Constructor constructorReflectPeer;
 
-	//TODO Mettre une SOFT REFERENCE (cf bcelPeer sur les Classes)
+	//TODO V1.2 Mettre une SOFT REFERENCE (cf bcelPeer sur les Classes)
 	private Instruction[] bcelInstructions;
 	private ConstantPoolGen bcelConstantPool;
 	

@@ -12,7 +12,7 @@ public interface ITag extends INamed {
 	public ITagType getType();
 	public ICodeElement getTaggedElement();
 	public ITagRole getRolePlayedInAssociation();
-	public ImmutableMapWithNamedKeys<ITagAttribute,String> getAttributeValues();
-	public void setAttributeValue(ITagAttribute at, String string);
+	public ImmutableMapWithNamedKeys<ITagAttributeType,String> getAttributeValues();
+	public void setAttributeValue(ITagAttributeType at, String string);
 	public void setRolePlayedInAssociation(ITagRole tagRoleImpl);
 }

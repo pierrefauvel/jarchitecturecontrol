@@ -3,11 +3,15 @@ package org.jarco.tags.internal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jarco.control.specifications.model.AnnotationPredicate;
+import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRole;
 import org.jarco.tags.external.ITagRoleType;
+import org.jarco.xml.FromXmlFactory;
+import org.w3c.dom.Element;
 
 public class TagAssociationInternal implements ITagAssociation {
 
@@ -19,6 +23,9 @@ public class TagAssociationInternal implements ITagAssociation {
 	{
 		this.type=type;
 		this.name=name;
+	}
+	public TagAssociationInternal() {
+		// pour la manipulation via swing
 	}
 	public void setRole (ITagRoleType roleType, ITagRole role)
 	{
@@ -40,5 +47,4 @@ public class TagAssociationInternal implements ITagAssociation {
 	{
 		return "Tag Association "+name;
 	}
-
 }

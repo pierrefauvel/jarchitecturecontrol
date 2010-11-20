@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
-import org.jarco.tags.external.ITagAttribute;
+import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagRole;
 import org.jarco.tags.external.ITagType;
 
@@ -31,7 +31,7 @@ public class TagReport {
 
 	public void writeTag(ITag t) {
 		pw.print(Indent.STR(2));
-		for(ITagAttribute a : t.getType().getAttributes())
+		for(ITagAttributeType a : t.getType().getAttributes())
 		{
 			pw.print(" "+a+"="+t.getAttributeValues().get(a));
 		}

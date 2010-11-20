@@ -12,14 +12,14 @@ import org.jarco.collections.ImmutableMap;
 import org.jarco.control.report.SpecificationReport;
 import org.jarco.control.specifications.ControlResult;
 import org.jarco.control.specifications.ElementAndContext;
-import org.jarco.control.specifications.FromXmlFactory;
 import org.jarco.control.specifications.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
 import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
 import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.swing.IExposableAsANode;
+import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

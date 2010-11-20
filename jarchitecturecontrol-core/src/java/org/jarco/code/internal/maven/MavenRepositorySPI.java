@@ -28,7 +28,8 @@ public class MavenRepositorySPI implements IRepositorySPI {
 
 	public ImmutableList<IRepositorySPIRef> getCanonicalComponents() {
 		List<IRepositorySPIRef> lst = new ArrayList<IRepositorySPIRef>();
-		lst.add(new MavenRef(repoPath,pw,"bcel","bcel","5.1","jar"));
+//		lst.add(new MavenRef(repoPath,pw,"bcel","bcel","5.1","jar"));
+		lst.add(new MavenRef(repoPath,"bcel","bcel","5.1","jar"));
 		return new ImmutableList(lst);
 	}
 
