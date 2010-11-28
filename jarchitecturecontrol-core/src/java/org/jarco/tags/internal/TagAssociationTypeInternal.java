@@ -12,13 +12,13 @@ import org.jarco.collections.ImmutableNamedSet;
 import org.jarco.collections.ImmutableSet;
 import org.jarco.control.specifications.model.FM;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
+import org.jarco.persistence.TagRepositoryFromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
-import org.jarco.xml.FromXmlFactory;
-import org.jarco.xml.TagRepositoryFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

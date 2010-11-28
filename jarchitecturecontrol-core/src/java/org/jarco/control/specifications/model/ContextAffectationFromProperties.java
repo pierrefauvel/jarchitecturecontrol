@@ -11,8 +11,8 @@ import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -45,8 +45,8 @@ public class ContextAffectationFromProperties<T extends ICodeElement> implements
 
 	public String toXml() {
 		StringBuffer sb=new StringBuffer();
-		sb.append("<context-affectation-from-xpath context-property=\""+propertyName+"\" key=\""+ key+"\">");
-		sb.append("</context-affectation-from-xpath>");
+		sb.append("<context-affectation-from-properties context-property=\""+propertyName+"\" key=\""+ key+"\">");
+		sb.append("</context-affectation-from-properties>");
 		return sb.toString();
 	}
 

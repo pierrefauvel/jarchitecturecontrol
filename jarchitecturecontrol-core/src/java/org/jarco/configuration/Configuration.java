@@ -12,8 +12,8 @@ import java.util.List;
 import org.jarco.code.internal.maven.MavenRef;
 import org.jarco.control.report.DependenciesReport;
 import org.jarco.control.specifications.model.FM;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 public class Configuration implements IExposableAsANode

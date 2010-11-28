@@ -18,8 +18,8 @@ import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

@@ -37,12 +37,13 @@ import org.jarco.control.report.memory.InMemoryViolationReport;
 import org.jarco.control.specifications.ControlResult;
 import org.jarco.control.specifications.Violation;
 import org.jarco.control.specifications.model.Specification;
+import org.jarco.persistence.FromXmlFactory;
+import org.jarco.persistence.SpecificationFromXmlFactory;
+import org.jarco.swing.icons.JarcoIcon;
 import org.jarco.swing.tree.JTreeEditor;
 import org.jarco.swing.tree.ModelInterface;
 import org.jarco.swing.tree.TreeCellRendererWithIcons;
 import org.jarco.tags.external.ITagRepository;
-import org.jarco.xml.FromXmlFactory;
-import org.jarco.xml.SpecificationFromXmlFactory;
 import org.xml.sax.SAXException;
 
 public class JSpecificationEditor {
@@ -62,7 +63,7 @@ public class JSpecificationEditor {
 	public static void main(JFrame parent, final ModelInterface mi, final Map<String,Object> injection, final ITagRepository tr, final Configuration configuration) throws IllegalArgumentException, SecurityException, XPathExpressionException, IOException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, SAXException 
 	{
 		FromXmlFactory fxf= new SpecificationFromXmlFactory(tr);
-		final JTreeEditor jte = new JTreeEditor(mi, injection, "reports", "specification", new JTreeEditor.IContainer() {
+		final JTreeEditor jte = new JTreeEditor(mi, injection, "specification", "specification", new JTreeEditor.IContainer() {
 			@Override
 			public void pack() {
 				JSpecificationEditor.pack();
@@ -75,7 +76,7 @@ public class JSpecificationEditor {
 	    
 	    tbb = new JTabbedPane();
 		  tbb.add("Specification",jte.getPane());
-		  tbb.setIconAt(0, TreeCellRendererWithIcons.SPECIFICATION_ICON);
+		  tbb.setIconAt(0, JarcoIcon.SPECIFICATION_ICON);
 //		    tbl_violations = new JTable();
 //		tbb.add("Violations",new JScrollPane(tbl_violations));
 //		tbb.setIconAt(1,TreeCellRendererWithIcons.VIOLATION_ICON);

@@ -1,5 +1,6 @@
 package org.jarco.control.specifications;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jarco.code.external.ICodeElement;
@@ -9,17 +10,21 @@ public class Violation {
   private String id;
   private String message;
   private ICodeElement element;
-  private List stack;
+  private List<Object> stack;
 
-  //TODO V1.1 Ajouter un commentaire en texte libre expliquant la violation ? un ID "fonctionnel" ?
   //TODO V1.1 Ajouter une gravité à la violation
   
-  public Violation(String id, String message, ICodeElement element, List stack)
+  public Violation(String id, String message, ICodeElement element, List<Object> stack)
   {
 	  this.id=id;
 	  this.message=message;
 	  this.element=element;
-	  this.stack=stack;
+	  this.stack=new ArrayList<Object>();
+	  //the stack parameter must be cloned : it is transient
+	  for(Object o: stack)
+	  {
+		  this.stack.add(o);
+	  }
   }
   
   public String getId(){
@@ -34,10 +39,10 @@ public class Violation {
     return element;
   }
 
-  public List<Specification> getStack() {
+  public List<Object> getStack() {
     return stack;
   }
-  
+  @Override
   public String toString()
   {
 	  return element+":"+message;

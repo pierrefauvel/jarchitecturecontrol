@@ -10,12 +10,12 @@ import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ContextAffectationFromXpath<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
+public class ContextAffectationFromXPath<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
 
 	@FM(kind=kind.component)
 	private String propertyName;
@@ -23,12 +23,12 @@ public class ContextAffectationFromXpath<T extends ICodeElement> implements ICon
 	private String str_expression;
 	
 	//pour l'éditeur graphique
-	public ContextAffectationFromXpath()
+	public ContextAffectationFromXPath()
 	{
 	}
 	
 	//new ContextAffectationFromXPath("classname","./@class")
-	public ContextAffectationFromXpath( String propertyName, String xpath)
+	public ContextAffectationFromXPath( String propertyName, String xpath)
 	{
 		this.propertyName = propertyName;
 		this.str_expression = xpath;
@@ -44,13 +44,13 @@ public class ContextAffectationFromXpath<T extends ICodeElement> implements ICon
 
 	public String toXml() {
 		StringBuffer sb=new StringBuffer();
-		sb.append("<context-affectation-from-xpath context-property=\""+propertyName+"\">");
+		sb.append("<context-affectation-from-x-path context-property=\""+propertyName+"\">");
 		sb.append("<xpath>"+str_expression+"</xpath>");
-		sb.append("</context-affectation-from-xpath>");
+		sb.append("</context-affectation-from-x-path>");
 		return sb.toString();
 	}
 
-	public static ContextAffectationFromXpath fromXml (FromXmlFactory f, Element e)
+	public static ContextAffectationFromXPath fromXml (FromXmlFactory f, Element e)
 	{
 		String pn = e.getAttribute("context-property");
 		String xpath = null;
@@ -63,7 +63,7 @@ public class ContextAffectationFromXpath<T extends ICodeElement> implements ICon
 				break loop;
 			}
 		}
-		return new ContextAffectationFromXpath(pn,xpath);
+		return new ContextAffectationFromXPath(pn,xpath);
 	}
 	
 	public String toString()

@@ -1,7 +1,8 @@
 package org.jarco.swing.tree;
 
-public interface IExposableAsANode {
+import org.jarco.persistence.IPersistableAsXml;
+
+public interface IExposableAsANode extends IPersistableAsXml{
 
 	String toLabel();
-	String toXml();
 }

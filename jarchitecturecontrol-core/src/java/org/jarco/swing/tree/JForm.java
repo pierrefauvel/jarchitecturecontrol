@@ -28,6 +28,7 @@ import org.jarco.control.specifications.model.FM;
 import org.jarco.control.specifications.model.FM.kind;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagType;
+import org.jarco.tags.internal.TagRepositoryModel;
 
 public class JForm {
 	
@@ -147,7 +148,7 @@ public class JForm {
 			ed.mapping = mappings.string;
 			return ed;
 		}
-		//TODO en cas de Array, JTable + maître/détail avec ... un sous JForm
+		//TODO v1.1 en cas de Array, JTable + maître/détail avec ... un sous JForm
 		else if(String[].class.isAssignableFrom(type))
 		{
 			Editor ed = new Editor();
@@ -180,7 +181,7 @@ public class JForm {
 		else if(ITagType.class.isAssignableFrom(type))
 		{
 			Editor ed = new Editor();
-			ITagRepository repo = (ITagRepository) injection.get(ITagRepository.class.getName());
+			ITagRepository repo = (ITagRepository) ((TagRepositoryModel)(injection.get(TagRepositoryModel.class.getName()))).getRoot();
 			List lst = new ArrayList();
 			for(Object o:repo.getTagTypes())
 				lst.add(o);

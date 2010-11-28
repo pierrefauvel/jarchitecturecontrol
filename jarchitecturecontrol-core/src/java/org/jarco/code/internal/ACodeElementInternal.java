@@ -64,7 +64,7 @@ public abstract class ACodeElementInternal implements ICodeElement{
 		return rc;
 	}
 	//a reprendre
-	//TODO V1 Attention au cinit de classe
+	//TODO V1.1 Attention au cinit de classe
 	IMethod wrap(IClass parentClass,Constructor ctor/*,Set<EModifier> mod*/) {
 		return new MethodInternal(
 				getRepository(),

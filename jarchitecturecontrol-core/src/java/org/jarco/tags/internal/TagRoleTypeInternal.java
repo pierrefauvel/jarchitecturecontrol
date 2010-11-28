@@ -2,6 +2,7 @@ package org.jarco.tags.internal;
 
 import org.jarco.control.specifications.model.FM;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
@@ -9,7 +10,6 @@ import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRole;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 public class TagRoleTypeInternal implements ITagRoleType, IExposableAsANode {

@@ -26,8 +26,8 @@ import org.jarco.collections.ImmutableMap;
 import org.jarco.configuration.ConfigurationSet;
 import org.jarco.control.report.DependenciesReport;
 import org.jarco.control.specifications.model.FM;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -279,7 +279,7 @@ public class MavenRef implements IRepositorySPIRef, IExposableAsANode
 					mr.version=getMostRecentVersion(mr);
 				if(mr.version!=null)
 				{
-					//TODO V1 Récupérer le POM et lire l'extension
+					//TODO V1.2 Récupérer le POM et lire l'extension
 					mr.extension="jar"; // calculé en chargeant le pom de la cible project/packaging, facultatif
 					lmr.add(mr);
 				}

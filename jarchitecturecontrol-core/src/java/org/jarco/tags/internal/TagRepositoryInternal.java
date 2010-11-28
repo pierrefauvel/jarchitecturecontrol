@@ -9,6 +9,7 @@ import org.jarco.control.report.Indent;
 import org.jarco.control.report.TagReport;
 import org.jarco.control.specifications.model.FM;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
@@ -16,7 +17,6 @@ import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -73,7 +73,6 @@ public class TagRepositoryInternal implements ITagRepository, IExposableAsANode{
 		return newTagAssociationType(association);
 	}
 	public ITagAssociationType newTagAssociationType(ITagAssociationType association) {
-		// TODO Auto-generated method stub
 		hs_associations.add(association);
 		return association;
 	}

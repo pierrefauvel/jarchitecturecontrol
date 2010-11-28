@@ -13,8 +13,8 @@ import org.jarco.control.specifications.itf.IProductionRule;
 import org.jarco.control.specifications.model.AnnotationPredicate;
 import org.jarco.control.specifications.model.ChainedProductionRule;
 import org.jarco.control.specifications.model.ContextAffectationFromProperties;
-import org.jarco.control.specifications.model.ContextAffectationFromXpath;
-import org.jarco.control.specifications.model.FilterFromXpath;
+import org.jarco.control.specifications.model.ContextAffectationFromXPath;
+import org.jarco.control.specifications.model.FilterFromXPath;
 import org.jarco.control.specifications.model.FollowAssertion;
 import org.jarco.control.specifications.model.FollowProductionRule;
 import org.jarco.control.specifications.model.ModifierPredicate;
@@ -34,8 +34,8 @@ public class SpecificationModel implements ModelInterface{
 		hm_name2class.put("AnnotationPredicate",AnnotationPredicate.class);
 		hm_name2class.put("ChainedProductionRule",ChainedProductionRule.class);
 		hm_name2class.put("ContextAffectationFromProperties",ContextAffectationFromProperties.class);
-		hm_name2class.put("ContextAffectationFromXPath",ContextAffectationFromXpath.class);
-		hm_name2class.put("FilterFromXPath",FilterFromXpath.class);
+		hm_name2class.put("ContextAffectationFromXPath",ContextAffectationFromXPath.class);
+		hm_name2class.put("FilterFromXPath",FilterFromXPath.class);
 		hm_name2class.put("FollowAssertion",FollowAssertion.class);
 		hm_name2class.put("FollowProductionRule",FollowProductionRule.class);
 		hm_name2class.put("ModifierPredicate",ModifierPredicate.class);
@@ -213,7 +213,7 @@ public class SpecificationModel implements ModelInterface{
 
 	@Override
 	public Object clone(Object original) {
-		//TODO V0.1 a implémenter
+		//TODO V1.0 clone a implémenter
 		throw new UnsupportedOperationException("Clone not yet supported");
 	}
 

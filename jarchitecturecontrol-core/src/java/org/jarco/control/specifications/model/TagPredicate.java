@@ -8,13 +8,13 @@ import org.jarco.collections.ImmutableMap;
 import org.jarco.collections.ImmutableNamedMap;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
+import org.jarco.persistence.SpecificationFromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagType;
-import org.jarco.xml.FromXmlFactory;
-import org.jarco.xml.SpecificationFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

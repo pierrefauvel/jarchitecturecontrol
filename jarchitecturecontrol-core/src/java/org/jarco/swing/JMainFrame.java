@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -58,12 +59,11 @@ public class JMainFrame {
 //      map.put(org.jarco.tags.external.ITagRepository.class.getName(), new PetClinicSpecification());
 //	    final ModelInterface mi = new SpecificationModel(bs);
 
-	    //TODO V1.0 brancher le tag repository
 	    //TODO V1.0 sortir les icones du tree cell renderer
 	    
 	    final JFrame f = new JFrame("JArchitectureControl Main Window");
 
-	    JButton btn_configuration = new JButton("Configuration Editor",TreeCellRendererWithIcons.CONFIGURATION_SET_ICON);
+	    JButton btn_configuration = new JButton("Configuration Editor",JarcoIcon.CONFIGURATION_SET_ICON);
 	    btn_configuration.addActionListener(new ActionListener(){
 
 			@Override
@@ -86,7 +86,7 @@ public class JMainFrame {
 	    	
 	    });
 
-	    JButton btn_tagrepository = new JButton("Tag Repository Editor", TreeCellRendererWithIcons.TAG_REPOSITORY_ICON);
+	    JButton btn_tagrepository = new JButton("Tag Repository Editor", JarcoIcon.REPOSITORY_ICON);
 	    btn_tagrepository.addActionListener(new ActionListener(){
 
 			@Override
@@ -94,9 +94,10 @@ public class JMainFrame {
 				try
 				{
 					Map<String,Object> injection = new HashMap<String,Object>();
+					injection.put(TagRepositoryModel.class.getName(),trmi);
 					JTagRepositoryEditor.main(f,trmi, injection);
-					//TODO V1.0 à compléter qd on pourra selectionner
-					lbl_configuration.setText(trmi.getRoot().toString());
+					//TODO V0.1 à compléter qd on pourra selectionner
+					lbl_tagrepository.setText(trmi.getRoot().toString());
 				}
 				catch(Throwable t)
 				{
@@ -106,7 +107,7 @@ public class JMainFrame {
 	    	
 	    });
 	    
-	    JButton btn_specification = new JButton("Specification Editor",TreeCellRendererWithIcons.SPECIFICATION_ICON);
+	    JButton btn_specification = new JButton("Specification Editor",JarcoIcon.SPECIFICATION_ICON);
 	    btn_specification.addActionListener(new ActionListener(){
 
 			@Override
@@ -115,8 +116,8 @@ public class JMainFrame {
 				{
 					Map<String,Object> injection = new HashMap<String,Object>();
 					JSpecificationEditor.main(f,sm, injection,trmi.getTagRepository(),cfgmi.getSelectedConfiguration());
-					//TODO V1.0 à compléter qd on pourra selectionner
-					lbl_configuration.setText(trmi.getRoot().toString());
+					//TODO V0.1 à compléter qd on pourra selectionner
+					lbl_specification.setText(sm.getRoot().toString());
 				}
 				catch(Throwable t)
 				{
@@ -126,7 +127,7 @@ public class JMainFrame {
 	    	
 	    });
 	    
-	    JButton btn_control = new JButton("Run control",TreeCellRendererWithIcons.VIOLATION_ICON);
+	    JButton btn_control = new JButton("Run control",JarcoIcon.VIOLATION_ICON);
 	    btn_control.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -183,34 +184,7 @@ public class JMainFrame {
 				//TODO v1.1 à reprendre dans le compte rendu de contrôle (dépendences)
 //				dr.close();
 				
-				Violation[] v = vr.getViolations();
-				Object[][] o = new Object[v.length][];
-				for(int i=0;i<v.length;i++)
-				{
-					o[i]=new Object[2];
-					o[i][0]=v[i].getId();
-					o[i][1]=v[i].getElement().getName();
-				};
-				
-				String[] h = new String[]{"ID", "Element"};
-				DefaultTableModel dtm = new DefaultTableModel(o,h)
-				{
-					public boolean isCellEditable( int row, int col)
-					{
-						return false;
-					}
-				};
-
-			    JTabbedPane tbb = new JTabbedPane();
-			    JTable tbl_violations = new JTable();
-				tbb.add("Violations",new JScrollPane(tbl_violations));
-				tbl_violations.setModel(dtm);
-				System.out.println(o.length+" rows");
-				JDialog dlg_result = new JDialog(f,"Control Result",true);
-				dlg_result.getContentPane().setLayout(new BoxLayout(dlg_result.getContentPane(),BoxLayout.Y_AXIS));
-				dlg_result.getContentPane().add(tbb);
-				dlg_result.pack();
-				dlg_result.setVisible(true);
+				JViolationEditor ve = new JViolationEditor(f,vr);
 		    	}
 			catch(Throwable t)
 			{
@@ -219,18 +193,34 @@ public class JMainFrame {
 			}
 			});
 	    
-	    //TODO V1.0 passer de 1 tag repository à N tag repository
-	    //TODO V1.0 passer de 1 specification à N specifications
-	    //TODO V1.0 passer les fichiers xml (configuration, tag repository, specification) à 1 fichier par instance d'entité et non 1 fichier par classe d'entités
-	    
-	    f.setIconImage(TreeCellRendererWithIcons.SPECIFICATION_IMAGE);
+	    f.setIconImage(JarcoIcon.SPECIFICATION_IMAGE);
 	    f.getContentPane().setLayout(new BoxLayout(f.getContentPane(),BoxLayout.Y_AXIS));
-	    f.getContentPane().add(btn_configuration);
-	    f.getContentPane().add(lbl_configuration);
-	    f.getContentPane().add(btn_tagrepository);
-	    f.getContentPane().add(lbl_tagrepository);
-	    f.getContentPane().add(btn_specification);
-	    f.getContentPane().add(lbl_specification);
+	    
+	    {
+	    	JPanel q=new JPanel();
+	    	q.setLayout(new BoxLayout(q,BoxLayout.X_AXIS));
+	    	q.add(btn_configuration);
+	    	q.add(new JLabel("Selected configuration: "));
+	    	q.add(lbl_configuration);
+	    	f.getContentPane().add(q);
+	    }
+	    {
+	    	JPanel q=new JPanel();
+	    	q.setLayout(new BoxLayout(q,BoxLayout.X_AXIS));
+	    	q.add(btn_tagrepository);
+	    	q.add(new JLabel("Selected tag repository: "));
+	    	q.add(lbl_tagrepository);
+	    	f.getContentPane().add(q);
+	    }
+	    {
+	    	JPanel q=new JPanel();
+	    	q.setLayout(new BoxLayout(q,BoxLayout.X_AXIS));
+	    	q.add(btn_specification);
+	    	q.add(new JLabel("Selected specification: "));
+	    	q.add(lbl_specification);
+	    	f.getContentPane().add(q);
+	    }
+	    
 	    f.getContentPane().add(btn_control);
 
 	    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

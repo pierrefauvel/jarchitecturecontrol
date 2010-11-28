@@ -11,8 +11,8 @@ import org.jarco.code.external.IMethod;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 //TODO V2 Enrichir les annotations avec une expression calculée

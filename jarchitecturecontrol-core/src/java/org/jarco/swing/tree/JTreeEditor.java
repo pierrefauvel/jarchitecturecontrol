@@ -69,9 +69,10 @@ import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
 import org.jarco.control.specifications.model.Specification;
+import org.jarco.persistence.FromXmlFactory;
+import org.jarco.persistence.IPersistableAsXml;
 import org.jarco.swing.icons.JarcoIcon;
 import org.jarco.tags.external.ITagRepository;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -275,13 +276,14 @@ public class JTreeEditor {
         }
       }
     });
+    /*
     final JMenuItem mni_deep_paste = popup.add(new AbstractAction("Deep Paste") {
       @Override
       public void actionPerformed(ActionEvent aArg0) {
         if (t.getLeadSelectionPath() != null) {
           System.out.println("Deep Paste " + node_clipboard.getUserObject() + " into "
               + t.getLeadSelectionPath().getLastPathComponent());
-          //TODO A Implémenter. Attention au cas où on colle dans le graphe que l'on copie
+          //TODO V1.1 A Implémenter. Attention au cas où on colle dans le graphe que l'on copie
           //          DefaultMutableTreeNode parent = (DefaultMutableTreeNode) t.getSelectionModel().getSelectionPath()
           //              .getLastPathComponent();
           //          DefaultMutableTreeNode node = new DefaultMutableTreeNode(node_clipboard.getUserObject());
@@ -294,6 +296,7 @@ public class JTreeEditor {
         }
       }
     });
+    */
     final JMenuItem mni_delete = popup.add(new AbstractAction("Delete") {
       @Override
       public void actionPerformed(ActionEvent aArg0) {
@@ -317,7 +320,7 @@ public class JTreeEditor {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			saveAllToFile(directory,namePrefix,(IExposableAsANode)node_root.getUserObject());
+			saveAllToFile(directory,namePrefix,(IPersistableAsXml)node_root.getUserObject());
 		}
     });
     final JMenuItem mni_restore = popup.add(new AbstractAction("Restore from File"){
@@ -327,12 +330,7 @@ public class JTreeEditor {
 			restore();
 		}
     });
-
-    //TODO a décommenter une fois que c'est implémenté
-    // JConfigurationDialog dlg = new JConfigurationDialog(f);
-    // dlg.setVisible(true);
-    
-    
+        
     popup.pack();
     t.addMouseListener(new MouseAdapter() {
       @Override
@@ -347,7 +345,7 @@ public class JTreeEditor {
             mni_copy.setEnabled(true);
             mni_cut.setEnabled(false);
             mni_paste.setEnabled(true);
-            mni_deep_paste.setEnabled(true);
+//            mni_deep_paste.setEnabled(true);
             mni_delete.setEnabled(false);
             mni_save.setEnabled(true);
             mni_restore.setEnabled(true);
@@ -359,7 +357,7 @@ public class JTreeEditor {
             mni_copy.setEnabled(true);
             mni_cut.setEnabled(true);
             mni_paste.setEnabled(true);
-            mni_deep_paste.setEnabled(true);
+//            mni_deep_paste.setEnabled(true);
             mni_delete.setEnabled(true);
             mni_save.setEnabled(true);
             mni_restore.setEnabled(true);
@@ -371,7 +369,7 @@ public class JTreeEditor {
     
   }
 
-public static void saveAllToFile(String pdirectory, String pnamePrefix, IExposableAsANode eaan) {
+public static void saveAllToFile(String pdirectory, String pnamePrefix, IPersistableAsXml iPersistableAsXml) {
 	try
 	{
 	long ts = System.currentTimeMillis();
@@ -386,7 +384,7 @@ public static void saveAllToFile(String pdirectory, String pnamePrefix, IExposab
 		old.renameTo(new File(nameForOld));
 	FileWriter fw=new FileWriter(new File(nameForNew));
 	BufferedWriter bw = new BufferedWriter(fw);
-	bw.write(eaan.toXml());
+	bw.write(iPersistableAsXml.toXml());
 	bw.close();
 	}
 	catch(Throwable t)

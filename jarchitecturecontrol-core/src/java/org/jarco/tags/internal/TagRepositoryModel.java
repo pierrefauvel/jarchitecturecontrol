@@ -110,7 +110,7 @@ public class TagRepositoryModel implements ModelInterface {
 
 	@Override
 	public Object clone(Object original) {
-		//TODO support du clone
+		//TODO v1.1 support du clone
 		throw new UnsupportedOperationException("Not yet supported");
 	}
 
@@ -222,8 +222,7 @@ public class TagRepositoryModel implements ModelInterface {
 
 	@Override
 	public void removeChild(Object uoParent, Object uoFils) {
-		// TODO Auto-generated method stub
-		// TODO A IMPLEMENTER
+		// TODO v0.1 removeChild A IMPLEMENTER
 		throw new UnsupportedOperationException("La suppression n'est pas encore implémentée");
 	}
 

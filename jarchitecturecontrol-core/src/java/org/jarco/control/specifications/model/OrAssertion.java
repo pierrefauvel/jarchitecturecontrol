@@ -9,8 +9,8 @@ import org.jarco.collections.ImmutableList;
 import org.jarco.control.specifications.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
 import org.jarco.control.specifications.model.FM.kind;
+import org.jarco.persistence.FromXmlFactory;
 import org.jarco.swing.tree.IExposableAsANode;
-import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
