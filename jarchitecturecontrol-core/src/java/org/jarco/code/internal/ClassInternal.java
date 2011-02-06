@@ -29,11 +29,14 @@ import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableNamedList;
 import org.jarco.collections.ImmutableNamedMap;
 import org.jarco.collections.ImmutableSet;
+import org.apache.bcel.classfile.Attribute;
 import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Constant;
 import org.apache.bcel.classfile.ConstantClass;
 import org.apache.bcel.classfile.ConstantNameAndType;
 import org.apache.bcel.classfile.ConstantPool;
+import org.apache.bcel.classfile.InnerClass;
+import org.apache.bcel.classfile.InnerClasses;
 import org.apache.bcel.classfile.JavaClass;
 
 //TODO V1.1 EXTERNALISER LE BCEL de ClassInternal
@@ -64,7 +67,8 @@ public class ClassInternal extends ACodeElementInternal implements IClass {
 		this.zip_file=zip_file;
 		this.file_name=file_name;
 		this.parentClassName=parent;
-		((CodeRepositoryInternal)(repo)).registerInnerClass(parent,this);
+		if(parent!=null)
+			((CodeRepositoryInternal)(repo)).registerInnerClass(parent,this);
 	}
 	
 	public String getLongName()
@@ -75,6 +79,11 @@ public class ClassInternal extends ACodeElementInternal implements IClass {
 	public String toString()
 	{
 		return "Class "+longName;
+	}
+	
+	public String toLabel()
+	{
+		return getPackage().getName()+".<b>"+shortName+"</b>";
 	}
 	
 	public String toLongString()
@@ -119,6 +128,24 @@ public class ClassInternal extends ACodeElementInternal implements IClass {
 		{
 			ClassParser cp= new ClassParser(zip_file,file_name);
 			bcelPeer = new SoftReference<JavaClass>(cp.parse());
+//TODO 1.1 code de récupération des modifiers (à utiliser, mais ne renvoie pas les valeurs attendues)			
+/*			for(Attribute ai : bcelPeer.get().getAttributes())
+			{
+				if(ai instanceof InnerClasses)
+				{
+					InnerClasses ic = (InnerClasses)ai;
+					for(InnerClass ici : ic.getInnerClasses())
+					{
+						JavaClass jc = bcelPeer.get();
+						ConstantClass inner_cc = (ConstantClass) jc.getConstantPool().getConstant(ici.getInnerClassIndex());
+						String inner_cn = (String)(inner_cc.getConstantValue(jc.getConstantPool()));
+						ConstantClass outer_cc = (ConstantClass) jc.getConstantPool().getConstant(ici.getOuterClassIndex());
+						String outer_cn = (String)(outer_cc.getConstantValue(jc.getConstantPool()));
+						Set<EModifier> m = wrapModifiers(ici.getInnerAccessFlags());
+						System.out.println("PF201 "+jc.getClassName()+" inner="+inner_cn+" outer="+outer_cn+" "+m);
+					}
+				}
+			}*/
 		};
 	}
 
@@ -261,6 +288,7 @@ public class ClassInternal extends ACodeElementInternal implements IClass {
 			{
 				rc.add(EModifier._annotation);
 			}
+			
 			return new ImmutableSet<EModifier>(rc);
 		}
 		catch(Throwable t)

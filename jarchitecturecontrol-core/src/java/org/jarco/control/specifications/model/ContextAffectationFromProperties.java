@@ -10,13 +10,14 @@ import org.jarco.code.external.IPropertiesDocument;
 import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IConsequence;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ContextAffectationFromProperties<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
+public class ContextAffectationFromProperties<T extends ICodeElement> implements IConsequence<T> {
 
 	@FM(kind=kind.component)
 	private String propertyName;
@@ -50,11 +51,13 @@ public class ContextAffectationFromProperties<T extends ICodeElement> implements
 		return sb.toString();
 	}
 
-	public static ContextAffectationFromProperties fromXml (FromXmlFactory f, Element e)
+//	public static ContextAffectationFromProperties fromXml (FromXmlFactory f, Element e)
+	public void fromXml (FromXmlFactory f, Element e)
 	{
 		String pn = e.getAttribute("context-property");
 		String pk = e.getAttribute("key");
-		return new ContextAffectationFromProperties(pn,pk);
+		this.propertyName = pn;
+		this.key=pk;
 	}
 	
 	public String toString()

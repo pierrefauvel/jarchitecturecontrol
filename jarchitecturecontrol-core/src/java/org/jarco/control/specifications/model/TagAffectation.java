@@ -5,10 +5,9 @@ import java.util.List;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.control.specifications.ContextStrategies;
 import org.jarco.control.specifications.itf.IConsequence;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.persistence.SpecificationFromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
@@ -19,10 +18,12 @@ import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
 import org.jarco.tags.internal.TagRoleInternal;
 import org.jarco.tags.internal.TagRoleTypeInternal;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.SpecificationFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class TagAffectation<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode{
+public class TagAffectation<T extends ICodeElement> implements IConsequence<T>{
 	@FM(kind=kind.component)
 	private String[][] name_values;
 	@FM(kind=kind.component)
@@ -131,9 +132,19 @@ public class TagAffectation<T extends ICodeElement> implements IConsequence<T>, 
 		return sb.toString();
 	}
 	
-	public static TagAffectation fromXml(FromXmlFactory f, Element e)
+//	public static TagAffectation fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
-		String type = e.getAttribute("type");
+
+		String str_type = e.getAttribute("type");
+		ITagRepository repo = ((SpecificationFromXmlFactory)f).getTagRepository();
+		ITagType ttype = repo.getTagTypes().get(str_type);
+		if(ttype==null)
+			throw new RuntimeException("Could not find tag type "+type+ "in "+f.dump(e)+" "+repo.getTagTypes());
+		this.type=ttype;
+		
+		this.trepo=repo;
+
 		NodeList nl = e.getChildNodes();
 		String[][] nv = new String[nl.getLength()][2];
 		for (int i=0;i<nv.length;i++)
@@ -145,11 +156,15 @@ public class TagAffectation<T extends ICodeElement> implements IConsequence<T>, 
 			nv[i][1]=ei.getAttribute("value");
 			}
 		}
-		ITagRepository repo = ((SpecificationFromXmlFactory)f).getTagRepository();
-		ITagType ttype = repo.getTagTypes().get(type);
-		if(ttype==null)
-			throw new RuntimeException("Could not find tag type "+type+ "in "+f.dump(e)+" "+repo.getTagTypes());
-		return new TagAffectation(repo,ttype,nv);
+		this.name_values=nv;
+		loop:for(String[] ai : name_values)
+		{
+			ITagAttributeType at = type.getAttributes().get(ai[0]);
+			if(ai[0].compareTo(ITagType.ASSOCIATION_NAME)==0) continue loop;
+			if(ai[0].compareTo(ITagType.ASSOCIATION_TYPE_NAME)==0) continue loop;
+			if(ai[0].compareTo(ITagType.ROLE_TYPE_NAME)==0) continue loop;
+			if(at==null) throw new RuntimeException("PF57 Unexpected attribute "+ai[0]+" in type "+type);
+		}
 	}
 
 }

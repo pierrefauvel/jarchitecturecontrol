@@ -8,12 +8,13 @@ import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.INamed;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
-public class NamePredicate<T extends ICodeElement> implements IPredicate<T>, IExposableAsANode {
+public class NamePredicate<T extends ICodeElement> implements IPredicate<T> {
 
 //	private String p;
 //	private Matcher m;
@@ -100,19 +101,23 @@ public class NamePredicate<T extends ICodeElement> implements IPredicate<T>, IEx
 			return "<name-predicate name-prefix=\""+prefix+"\" variable-name=\""+variableName+"\" suffix=\""+suffix+"\" />";
 	}
 	
-	public static NamePredicate fromXml(FromXmlFactory f, Element e)
+//	public static NamePredicate fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		String name = e.getAttribute("name");
 		if(name!=null && name.length()>0)
 		{
-			return new NamePredicate(name);
+			this.exactMatch = name;
+//			return new NamePredicate(name);
 		}
 		else
 		{
 			String name_prefix = e.getAttribute("name-prefix");
 			String variable_name = e.getAttribute("variable-name");
 			String suffix = e.getAttribute("suffix");
-			return new NamePredicate(name_prefix,variable_name,suffix);
+			this.prefix=name_prefix;
+			this.variableName=variable_name;
+			this.suffix=suffix;
 		}
 	}
 }

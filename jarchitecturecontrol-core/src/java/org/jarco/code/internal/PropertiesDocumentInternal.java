@@ -33,6 +33,11 @@ public class PropertiesDocumentInternal extends ACodeElementInternal implements 
 		return name;
 	}
 	
+	public String toLabel()
+	{
+		return name;
+	}
+	
 	public String get(String key) {
 		try
 		{

@@ -7,14 +7,14 @@ import java.util.List;
 import org.jarco.code.external.IRepositorySPI;
 import org.jarco.code.external.IRepositorySPIRef;
 import org.jarco.collections.ImmutableList;
-import org.jarco.control.report.DependenciesReport;
+import org.jarco.control.report.itf.IDependenciesReport;
 
 public class MavenRepositorySPI implements IRepositorySPI {
 
 	private String repoPath;
 	private MavenRef[] mavenComponents;
-	private DependenciesReport pw;
-	public MavenRepositorySPI( DependenciesReport pw,String repoPath, MavenRef[] mavenComponents)
+	private IDependenciesReport pw;
+	public MavenRepositorySPI( IDependenciesReport pw,String repoPath, MavenRef[] mavenComponents)
 	{
 		this.pw=pw;
 		this.repoPath=repoPath;

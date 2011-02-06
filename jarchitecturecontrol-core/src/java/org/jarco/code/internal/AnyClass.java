@@ -85,4 +85,14 @@ public class AnyClass extends ACodeElementInternal implements IClass {
 		return null;
 	}
 
+	@Override
+	public ImmutableList<IMethod> getConstructors() {
+		return new ImmutableList<IMethod>();
+	}
+	
+	public String toLabel()
+	{
+		return "<i>*ANY*</i>";
+	}
+
 }

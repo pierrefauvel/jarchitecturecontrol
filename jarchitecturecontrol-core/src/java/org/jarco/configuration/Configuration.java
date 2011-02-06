@@ -10,13 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jarco.code.internal.maven.MavenRef;
-import org.jarco.control.report.DependenciesReport;
-import org.jarco.control.specifications.model.FM;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.control.report.DependenciesGReport;
+import org.jarco.control.report.itf.IDependenciesReport;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-public class Configuration implements IExposableAsANode
+public class Configuration implements IExposableAsANode, IPersistableAsXml
   {
 	@FM(kind=FM.kind.component)
 	  public String prefix;
@@ -27,7 +29,8 @@ public class Configuration implements IExposableAsANode
 	@FM(kind=FM.kind.component)
 	  public String jdkPath;
 	@FM(kind=FM.kind.ignore)
-	  private FileWriter fw;
+//	  private FileWriter fw;
+	private IDependenciesReport dr;
 	  
 	public Configuration()
 	{
@@ -49,14 +52,21 @@ public class Configuration implements IExposableAsANode
 		return jdkPath;
 	}
 
-	public DependenciesReport getDependenciesReport() throws IOException {
-		if(fw==null)
+	public IDependenciesReport getDependenciesReport() throws IOException {
+/*		if(fw==null)
 		{
 			File f = new File("reports/"+getReportPrefix());
 			f.mkdirs();
 			fw=new FileWriter("reports/"+getReportPrefix()+".ja2dependencies");	
 		}
-		return new DependenciesReport(fw);
+		return new DependenciesGReport(fw);*/
+		if(dr==null)
+		{
+			File dir = new File("reports");
+			dir.mkdirs();
+			dr = new DependenciesGReport(dir,getReportPrefix());
+		}
+		return dr;
 	}
 
 	public void add(MavenRef uoFils) {
@@ -66,19 +76,19 @@ public class Configuration implements IExposableAsANode
 	public void remove(MavenRef uoFils) {
 		mr.remove(uoFils);
 	}
-	  public static Configuration fromXml(FromXmlFactory f, Element e)
+	  public void fromXml(FromXmlFactory f, Element e)
+//	  public static Configuration fromXml(FromXmlFactory f, Element e)
 	  {
-		  Configuration cfg=new Configuration();
-		  cfg.prefix = e.getAttribute("prefix");
-		  cfg.repopath=e.getAttribute("repopath");
-		  cfg.jdkPath=e.getAttribute("jdkPath");
+//		  Configuration cfg=new Configuration();
+		  this.prefix = e.getAttribute("prefix");
+		  this.repopath=e.getAttribute("repopath");
+		  this.jdkPath=e.getAttribute("jdkPath");
 		  NodeList nl = e.getElementsByTagName("maven-ref");
 		  for(int i=0;i<nl.getLength();i++)
 		  {
 			  Element ei = (Element)(nl.item(i));
-			  cfg.add((MavenRef) f.fromXml(ei));
+			  this.add((MavenRef) f.fromXml(ei));
 		  }
-		  return cfg;
 	  }
 	  public String toXml()
 	  {
@@ -98,7 +108,7 @@ public class Configuration implements IExposableAsANode
 
 	@Override
 	public String toLabel() {
-		return toString();
+		return "<html><b>Configuration: </b><b>prefix=</b>"+prefix+" <b>repo-path=</b>"+repopath+" <b>jdkPath=</b>"+jdkPath+"</html>";
 	}
 	  
   }

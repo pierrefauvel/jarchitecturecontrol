@@ -10,15 +10,15 @@ import java.util.Set;
 import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableNamedSet;
 import org.jarco.collections.ImmutableSet;
-import org.jarco.control.specifications.model.FM;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.persistence.TagRepositoryFromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.TagRepositoryFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -85,19 +85,15 @@ public class TagAssociationTypeInternal implements ITagAssociationType, IExposab
 	
 	// V1.1 dissocier le référentiel de définition des tags et les tags et associations identifiées (2 packages différents)
 	
-	public static TagAssociationTypeInternal fromXml(FromXmlFactory f,Element e)
+//	public static TagAssociationTypeInternal fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
 		String an = e.getAttribute("name");
-		TagAssociationTypeInternal a = new TagAssociationTypeInternal(an);
-//		NodeList nl_a = ((Element)(e.getElementsByTagName("<tag-associations>").item(0))).getChildNodes();
-//		f.pushInContext(a.getClass(),a);
-//		for(int i=0;i<nl_a.getLength();i++)
-//		{
-//			Element ei = (Element)(nl_a.item(i));
-//			TagAssociationInternal ai = (TagAssociationInternal)(f.fromXml(ei));
-//			a.instances.add(ai);
-//		}
-		f.pushInContext(a);
+		this.name=an;
+		
+//		TagAssociationTypeInternal a = new TagAssociationTypeInternal(an);
+//		
+		f.pushInContext(this);
 		NodeList nl_r = ((Element)(e.getElementsByTagName("tag-role-types").item(0))).getChildNodes();
 		for(int i=0;i<nl_r.getLength();i++)
 		{
@@ -108,10 +104,10 @@ public class TagAssociationTypeInternal implements ITagAssociationType, IExposab
 			Element ej = (Element)(ei.getChildNodes());
 			TagRoleTypeInternal r = (TagRoleTypeInternal)(f.fromXml(ej));
 //			a.roles.put(r,tt);
-			a.roles.add(r);
+			this.roles.add(r);
 		}
-		f.popFromContext(a.getClass());
-		return a;
+		f.popFromContext(this.getClass());
+//		return a;
 	}
 	@Override
 	public String toLabel() {

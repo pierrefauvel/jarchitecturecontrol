@@ -11,13 +11,14 @@ import org.jarco.control.specifications.ContextStrategies;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class FollowProductionRule<T extends ICodeElement> implements IProductionRule<T>, IExposableAsANode {
+public class FollowProductionRule<T extends ICodeElement> implements IProductionRule<T> {
 
 	@FM(kind=kind.component)
 	private String name;
@@ -33,6 +34,11 @@ public class FollowProductionRule<T extends ICodeElement> implements IProduction
 	{
 		this.name=name;
 		this.params=params;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	private Object invoke (Object aContext, List ctx)
@@ -141,7 +147,8 @@ public class FollowProductionRule<T extends ICodeElement> implements IProduction
 		return sb.toString();
 	}
 	
-	public static FollowProductionRule fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
+//	public static FollowProductionRule fromXml(FromXmlFactory f, Element e)
 	{
 		List<String> lst = new ArrayList<String>();
 		NodeList nl = e.getChildNodes();
@@ -152,6 +159,7 @@ public class FollowProductionRule<T extends ICodeElement> implements IProduction
 				lst.add( ((Element)(nl.item(i))).getTextContent());
 			}
 		}
-		return new FollowProductionRule(e.getAttribute("name"),lst.toArray(new String[]{}));
+		this.name=e.getAttribute("name");
+		this.params=lst.toArray(new String[]{});
 	}
 }

@@ -9,21 +9,23 @@ import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.IProject;
 import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableMap;
+import org.jarco.control.Violation;
 import org.jarco.control.report.SpecificationReport;
 import org.jarco.control.specifications.ControlResult;
 import org.jarco.control.specifications.ElementAndContext;
-import org.jarco.control.specifications.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
 import org.jarco.control.specifications.itf.IConsequence;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class Specification<T extends ICodeElement> implements IExposableAsANode {
+public class Specification<T extends ICodeElement> implements IExposableAsANode, IPersistableAsXml {
 	@FM(kind=kind.treenode)
   private IPredicate<T> f;
 	@FM(kind=kind.treenode)
@@ -97,6 +99,7 @@ public class Specification<T extends ICodeElement> implements IExposableAsANode 
 		  return "specification productionRule={"+p+"},filter={"+f+"}";
   }
   
+  //TODO 0.1 les toLabel devraient renvoyer des FormattedText
   public String toLabel()
   {
 	  if(p==null)
@@ -131,7 +134,8 @@ public class Specification<T extends ICodeElement> implements IExposableAsANode 
 		  return "<specification>"+p.toXml()+""+f.toXml()+""+sb+"</specification>";
   }
   
-  public static Specification fromXml(FromXmlFactory f, Element e)
+//  public static Specification fromXml(FromXmlFactory f, Element e)
+  public void fromXml(FromXmlFactory f, Element e)
   {
 
 	  NodeList nl = e.getChildNodes();
@@ -160,10 +164,9 @@ public class Specification<T extends ICodeElement> implements IExposableAsANode 
 			  break loop;
 	  }
 
-	  Specification rc = null;
 	  if(j==0)
 	  {
-		  rc=new Specification();
+//		  return;
 	  }
 	  else
 	  {
@@ -173,28 +176,31 @@ public class Specification<T extends ICodeElement> implements IExposableAsANode 
 		  if(j==2)
 		  {
 			  IPredicate f2 = (IPredicate)(f.fromXml((Element)(nl.item(1))));
-			  rc=new Specification ( (IProductionRule)o1, f2);
+			  this.p = (IProductionRule)o1;
+			  this.f = f2;
 		  }
 		  else if(o1 instanceof IProductionRule)
 		  {
-			  rc=new Specification((IProductionRule)o1);
+			  this.p = (IProductionRule)o1;
+			  this.f = null;
 		  }
 		  else
 		  {
-			  rc=new Specification((IPredicate)o1);
+			  this.p = null;
+			  this.f = (IPredicate)o1;
 		  }
 	  }
 	  
 	  for(int i=j;i<o.length;i++)
 	  {
 		  if(Specification.class.isAssignableFrom(o[i].getClass()))
-			  rc.addChildSpec((Specification)o[i]);
+			  this.addChildSpec((Specification)o[i]);
 		  if(IAssertion.class.isAssignableFrom(o[i].getClass()))
-			  rc.addAssertion((IAssertion)o[i]);
+			  this.addAssertion((IAssertion)o[i]);
 		  if(IConsequence.class.isAssignableFrom(o[i].getClass()))
-			  rc.addConsequence((IConsequence)o[i]);
+			  this.addConsequence((IConsequence)o[i]);
 	  };
-	  return rc;
+//	  System.out.println("PF205 "+System.identityHashCode(this)+"@" +toLabel()+ " => "+this.getChildSpecs().count()+" chilfren");
   }
   
   public void addChildSpec(Specification s) {

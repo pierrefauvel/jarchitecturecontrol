@@ -6,15 +6,16 @@ import java.util.List;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.IProject;
 import org.jarco.collections.ImmutableList;
-import org.jarco.control.specifications.Violation;
+import org.jarco.control.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class OrAssertion<T extends ICodeElement> implements IAssertion<T>, IExposableAsANode {
+public class OrAssertion<T extends ICodeElement> implements IAssertion<T> {
 
 	@FM(kind=kind.treenode)
 	private List<IAssertion<T>> lst=new ArrayList<IAssertion<T>>();
@@ -41,7 +42,10 @@ public class OrAssertion<T extends ICodeElement> implements IAssertion<T>, IExpo
 			if(v==null)
 				return null;
 		};
-		return new Violation("INTERNAL-ERROR IN OR ASSERTION","No assertion passed in OrAssertion "+lst,t,stack);
+		if(lst.size()==0)
+			return new Violation("INTERNAL-ERROR IN OR ASSERTION","No assertion passed in OrAssertion "+lst,t,stack);
+
+		return new Violation("ALL ASSERTION VIOLATED IN OR ASSERTION","No assertion passed in OrAssertion "+lst+" passes",t,stack);
 	}
 	
 	public String toString()
@@ -74,18 +78,17 @@ public class OrAssertion<T extends ICodeElement> implements IAssertion<T>, IExpo
 		return sb.toString();
 	}
 	
-	public static OrAssertion fromXml(FromXmlFactory f, Element e)
+//	public static OrAssertion fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		NodeList nl = e.getChildNodes();
-		OrAssertion rc = new OrAssertion();
 		for (int i=0;i<nl.getLength();i++)
 		{
 			if(nl.item(i) instanceof Element)
 			{
-			rc.addAssertion((IAssertion)(f.fromXml((Element)nl.item(i))));
+			addAssertion((IAssertion)(f.fromXml((Element)nl.item(i))));
 			}
 		};
-		return rc;
 	}
 
 	public void remove(IAssertion assFils) {

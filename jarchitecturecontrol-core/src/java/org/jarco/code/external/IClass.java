@@ -25,6 +25,7 @@ public interface IClass extends ICodeElement, INamed{
 	public ImmutableNamedList<IField> getDeclaredFields();
 	public ImmutableSet<IClass> getInnerClasses();
 	public ImmutableList<IMethod> getDeclaredMethods();
+	public ImmutableList<IMethod> getConstructors();
 	public IClass getParentClass();
 	public IMethod getMethodByNameAndTypes(String mn, String[] pt);
 	public ImmutableNamedMap<IAnnotation> getAnnotations();

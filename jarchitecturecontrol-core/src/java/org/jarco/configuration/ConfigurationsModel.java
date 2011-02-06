@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.jarco.code.internal.maven.MavenRef;
-import org.jarco.swing.tree.ModelInterface;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.ModelInterface;
 import org.jarco.tags.external.ITagRepository;
 
 public class ConfigurationsModel implements ModelInterface{

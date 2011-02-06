@@ -115,10 +115,33 @@ public class MethodInternal extends ACodeElementInternal implements IMethod {
 					bcelPeer = jc.getMethod(methodReflectPeer);
 				else
 				{
-					System.err.println("PF65 analyzeBcel called on a constructor, access to constructor byte code not yet implemented");
-					return;
+					loop : for(Method mi : jc.getMethods())
+					{
+						if(mi.getName().compareTo("<init>")==0)
+						{
+							boolean match = true;
+							if(mi.getArgumentTypes().length!=constructorReflectPeer.getParameterTypes().length)
+								continue loop;
+							for(int i=0 ; i<mi.getArgumentTypes().length;i++)
+							{
+								org.apache.bcel.generic.Type t = mi.getArgumentTypes()[i];
+								Class c = constructorReflectPeer.getParameterTypes()[i];
+								if(!org.apache.bcel.generic.Type.getType(c).equals(t))
+								{
+									//TODO 0.1 améliorer la recherche des constructeurs dans le bytecode
+									continue loop;
+								}
+							}
+							bcelPeer = mi;
+						}
+					}
+					if(bcelPeer == null)
+					{
+						System.err.println("PF65 analyzeBcel called on a constructor, access to constructor byte code not yet implemented.");
+						return;
+					}
 				}
-				if((methodReflectPeer.getModifiers() & Modifier.ABSTRACT)!=0)
+				if(methodReflectPeer!=null && ((methodReflectPeer.getModifiers() & Modifier.ABSTRACT)!=0))
 				{
 					bcelInstructions = new Instruction[]{};
 				}
@@ -184,6 +207,16 @@ public class MethodInternal extends ACodeElementInternal implements IMethod {
 		return _toString;
 	}
 
+	public String toLabel(){
+		StringBuffer sb=new StringBuffer();
+		sb.append(getReturnType());
+		sb.append(" ");
+		sb.append("<b>"+name+"</b>");
+		sb.append(getParameterTypes());
+		return sb.toString();
+	}
+	
+	
 	public int hashCode()
 	{
 		return toString().hashCode();

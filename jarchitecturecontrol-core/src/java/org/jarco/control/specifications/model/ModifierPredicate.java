@@ -11,13 +11,14 @@ import org.jarco.code.external.IField;
 import org.jarco.code.external.IMethod;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ModifierPredicate<T extends ICodeElement> implements IPredicate<T>, IExposableAsANode{
+public class ModifierPredicate<T extends ICodeElement> implements IPredicate<T>{
 	
 	@FM(kind=kind.component)
 	private EModifier[] _modifiers;
@@ -84,7 +85,8 @@ public class ModifierPredicate<T extends ICodeElement> implements IPredicate<T>,
 		sb.append("</modifier-predicate>");
 		return sb.toString();
 	}
-	public static ModifierPredicate fromXml(FromXmlFactory f, Element e)
+//	public static ModifierPredicate fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		NodeList nl = e.getChildNodes();
 		List<EModifier> m = new ArrayList<EModifier>();
@@ -95,6 +97,6 @@ public class ModifierPredicate<T extends ICodeElement> implements IPredicate<T>,
 				m.add( EModifier.valueOf(((Element)nl.item(i)).getAttribute("value")));
 			}
 		}
-		return new ModifierPredicate(m.toArray(new EModifier[]{}));
+		_modifiers =m.toArray(new EModifier[]{});
 	}
 }

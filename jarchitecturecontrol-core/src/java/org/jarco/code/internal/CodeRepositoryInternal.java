@@ -35,7 +35,7 @@ import org.jarco.collections.ImmutableNamedMap;
 import org.jarco.collections.ImmutableNamedSet;
 import org.jarco.collections.ImmutableSet;
 import org.jarco.collections.MapOfSet;
-import org.jarco.control.report.DependenciesReport;
+import org.jarco.control.report.itf.IDependenciesReport;
 import org.jarco.tags.external.ITag;
 import org.xml.sax.SAXException;
 
@@ -48,7 +48,7 @@ public class CodeRepositoryInternal implements ICodeRepository {
 	private AuxilliaryClassLoader cl;
 	private Map<String,ProjectInternal> map_component2project=new HashMap<String,ProjectInternal>();
 //	private String repoPath;
-	private DependenciesReport rep_dependencies;
+	private IDependenciesReport rep_dependencies;
 	private Map<String,IPackage> map_packageByName=new HashMap<String,IPackage>();
 	
 	private SystemProject systemProject;
@@ -64,6 +64,11 @@ public class CodeRepositoryInternal implements ICodeRepository {
 		return anyClass;
 	}
 	
+	public String toLabel()
+	{
+		return getName();
+	}
+	
 	public String toString()
 	{
 		return "Repository "+getName();
@@ -74,7 +79,7 @@ public class CodeRepositoryInternal implements ICodeRepository {
 		return repoSPI.getName();
 	}
 	
-	public CodeRepositoryInternal(DependenciesReport rep, String jdkPath, IRepositorySPI repoSPI) throws IOException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException, XPathExpressionException, SAXException
+	public CodeRepositoryInternal(IDependenciesReport rep, String jdkPath, IRepositorySPI repoSPI) throws IOException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException, XPathExpressionException, SAXException
 	{
 		rep_dependencies=rep;
 		cl = new AuxilliaryClassLoader(this, this.getClass().getClassLoader());
@@ -131,11 +136,11 @@ public class CodeRepositoryInternal implements ICodeRepository {
 		
 		for(IRepositorySPIRef cmp : repoSPI.getCanonicalComponents())
 		{
-			load(cmp,false,"");
+			load(cmp,false);
 		}
 		for(IRepositorySPIRef cmp : repoSPI.getComponents())
 		{
-			load(cmp,true,"");
+			load(cmp,true);
 		}
 		
 		PackageInternal nopkg = createOrGetPackageByName(systemProject,"");
@@ -156,10 +161,10 @@ public class CodeRepositoryInternal implements ICodeRepository {
 	//TODO V2 A reprendre lors de l'externalisation de maven
 	public IProject findProject(IRepositorySPIRef mr, boolean includeInScope) throws XPathExpressionException, IOException, SAXException
 	{
-		return load(mr,includeInScope,"");
+		return load(mr,includeInScope);
 	}
 	
-	private IProject load(IRepositorySPIRef mr,boolean includeInScope, String indent) throws IOException, SAXException, XPathExpressionException
+	private IProject load(IRepositorySPIRef mr,boolean includeInScope) throws IOException, SAXException, XPathExpressionException
 	{
 		//TODO V2 Gérer les inclusions multiples
 		ProjectInternal project=null;
@@ -175,9 +180,10 @@ public class CodeRepositoryInternal implements ICodeRepository {
 				if(mr.getVersion().compareTo(foundRef.getVersion())!=0)
 				{
 					//TODO V2 Gérer le rechargement des projets si la version est plus récente ??? Faire 2 passes, une pour calculer les versions des composants, la seconde pour charger ?
-					System.out.println("PF76 Multiple use of project "+mr+", used cached instead: "+foundRef);
+//					System.out.println("PF76 Multiple use of project "+mr+", used cached instead: "+foundRef);
+					rep_dependencies.multipleVersionOfProject(mr,foundRef);
 				}
-				rep_dependencies.found(indent,mr,foundRef.getVersion());
+				rep_dependencies.found(mr,foundRef.getVersion());
 				return map_component2project.get(key);
 			}
 			
@@ -204,10 +210,12 @@ public class CodeRepositoryInternal implements ICodeRepository {
 			}
 			for(IRepositorySPIRef mri : project.getRef().getDependencies())
 			{
-				load(mri,false,indent+"\t");
+				rep_dependencies.push();
+				load(mri,false);
+				rep_dependencies.pop();
 			}
 //			System.out.println("Found "+project.getClasses().count()+" classes in "+project.getName());
-			rep_dependencies.loaded(indent,mr,mr.getVersion());
+			rep_dependencies.loaded(mr,mr.getVersion());
 			
 			return project;
 		}

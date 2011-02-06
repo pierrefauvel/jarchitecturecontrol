@@ -1,0 +1,6 @@
+<root>
+	<classes>
+		<class name="org.jarco.test.analysis.packageA.ClasseA" />
+		<class name="org.jarco.test.analysis.packageA.ClasseB" />
+	</classes>
+</root>

@@ -59,6 +59,11 @@ public class SystemProject extends ACodeElementInternal implements IProject {
 	{
 		return "Project System";
 	}
+	
+	public String toLabel()
+	{
+		return "<b>System</b>";
+	}
 
 	public void addPackage(PackageInternal pkg) {
 		pkgs.add(pkg);

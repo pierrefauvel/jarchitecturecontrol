@@ -2,7 +2,11 @@ package org.jarco.control.specifications.itf;
 
 import java.util.List;
 
-public interface IConsequence<T> {
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.xml.IPersistableAsXml;
+
+public interface IConsequence<T> extends IExposableAsANode,IPersistableAsXml{
 	public void apply(T e, List list);
 	public String toXml();
+	public String toLabel();
 }

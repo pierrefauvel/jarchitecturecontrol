@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import org.jarco.control.report.filesystem.Indent;
+
 public class SpecificationReport {
 
 	private int level;

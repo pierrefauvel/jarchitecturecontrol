@@ -4,18 +4,19 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jarco.code.external.ICodeElement;
+import org.jarco.control.Violation;
 import org.jarco.control.specifications.ElementAndContext;
-import org.jarco.control.specifications.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class FollowAssertion<T extends ICodeElement> implements IAssertion<T>, IExposableAsANode {
+public class FollowAssertion<T extends ICodeElement> implements IAssertion<T> {
 
 	@FM(kind=kind.component)
 	private String id;
@@ -110,7 +111,8 @@ public class FollowAssertion<T extends ICodeElement> implements IAssertion<T>, I
 		return "<follow-assertion id=\""+id+"\" name=\""+n+"\" min=\""+min+"\" max=\""+max+"\">"+ (f!=null ? f.toXml():"")+"</follow-assertion>";
 	}
 	
-	public static FollowAssertion fromXml(FromXmlFactory f, Element e)
+//	public static FollowAssertion fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		String n = e.getAttribute("name");
 		String id = e.getAttribute("id");
@@ -126,7 +128,11 @@ public class FollowAssertion<T extends ICodeElement> implements IAssertion<T>, I
 				break loop;
 			}
 		}
-		return new FollowAssertion(id,n,p,min,max);
+		this.id=id;
+		this.n=n;
+		this.f=p;
+		this.min=min;
+		this.max=max;
 	}
 
 	public void setFilter(IPredicate<T> f) {

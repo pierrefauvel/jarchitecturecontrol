@@ -3,7 +3,7 @@ package org.jarco.tags.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jarco.swing.tree.ModelInterface;
+import org.jarco.swing.components.ModelInterface;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagRepository;
@@ -55,13 +55,14 @@ public class TagRepositoryModel implements ModelInterface {
 
 	@Override
 	public boolean acceptChildType(Object uoPere, String typeFils) {
+		System.out.println(uoPere.getClass()+"=>"+typeFils);
 		if(uoPere instanceof TagRepositoryInternal)
 		{
-			return typeFils.compareTo("TagTypeInternal")==0 || typeFils.compareTo("TagAssociationInternal")==0;
+			return typeFils.compareTo("TagType")==0 || typeFils.compareTo("TagAssociationType")==0;
 		}
 		if(uoPere instanceof TagTypeInternal)
 		{
-			return typeFils.compareTo("TagAttributeTypeInternal")==0;
+			return typeFils.compareTo("TagAttributeType")==0;
 		}
 		if(uoPere instanceof TagAttributeTypeInternal)
 		{
@@ -69,7 +70,7 @@ public class TagRepositoryModel implements ModelInterface {
 		}
 		if(uoPere instanceof TagAssociationTypeInternal)
 		{
-			return typeFils.compareTo("TagRoleTypeInternal")==0;
+			return typeFils.compareTo("TagRoleType")==0;
 		}
 		if(uoPere instanceof TagRoleTypeInternal)
 		{
@@ -85,12 +86,14 @@ public class TagRepositoryModel implements ModelInterface {
 			TagRepositoryInternal r = (TagRepositoryInternal)uoPere;
 			TagTypeInternal t = (TagTypeInternal)uoFils;
 			r.newTagType(t);
+			return;
 		}
 		if(uoPere instanceof TagRepositoryInternal && uoFils instanceof TagAssociationInternal)
 		{
 			TagRepositoryInternal r = (TagRepositoryInternal)uoPere;
 			TagAssociationTypeInternal a = (TagAssociationTypeInternal)uoFils;
 			r.newTagAssociationType(a);
+			return;
 		}
 		if(uoPere instanceof TagTypeInternal)
 		{
@@ -98,12 +101,14 @@ public class TagRepositoryModel implements ModelInterface {
 			TagAttributeTypeInternal at = (TagAttributeTypeInternal) uoFils;
 			//TODO v1.1 renommer en newAttributeType
 			t.newAttribute(at);
+			return;
 		}
 		if(uoPere instanceof TagAssociationTypeInternal)
 		{
 			TagAssociationTypeInternal at = (TagAssociationTypeInternal)uoPere;
 			TagRoleTypeInternal rt = (TagRoleTypeInternal)uoFils;
 			at.newRoleType(rt);
+			return;
 		}
 		throw new RuntimeException("Unexpected classes "+uoPere.getClass()+" and "+uoFils);
 	}
@@ -222,7 +227,6 @@ public class TagRepositoryModel implements ModelInterface {
 
 	@Override
 	public void removeChild(Object uoParent, Object uoFils) {
-		// TODO v0.1 removeChild A IMPLEMENTER
 		throw new UnsupportedOperationException("La suppression n'est pas encore implémentée");
 	}
 

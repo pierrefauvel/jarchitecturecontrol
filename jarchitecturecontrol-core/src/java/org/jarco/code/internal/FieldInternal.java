@@ -57,6 +57,11 @@ public class FieldInternal extends ACodeElementInternal implements IField {
 		return "Field "+name+" of type "+type+" modifiers "+mod;
 	}
 	
+	public String toLabel()
+	{
+		return mod+" "+type+" "+getParentClass().getName()+"<b>"+name+"</b>";
+	}
+	
 	public boolean equals(Object o){
 		IField other = (IField)o;
 		return getParentClass().equals(other.getParentClass()) && name.compareTo(other.getName())==0;

@@ -30,6 +30,11 @@ public class XmlElementInternal extends ACodeElementInternal implements IXmlElem
 	public String getName() {
 		return e.getNodeName();
 	}
+	
+	public String toLabel()
+	{
+		return getName();
+	}
 
 	public ImmutableList<IXmlElement> getChildNodes(){
 		List<IXmlElement> rc = new ArrayList<IXmlElement>();

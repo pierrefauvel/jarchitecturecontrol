@@ -10,13 +10,15 @@ import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IPredicate;
 import org.jarco.control.specifications.itf.IProductionRule;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ChainedProductionRule<T extends ICodeElement> implements IProductionRule<T>,IExposableAsANode {
+public class ChainedProductionRule<T extends ICodeElement> implements IProductionRule<T> {
 
 	@FM(kind=kind.treenode)
 	private List<IProductionRule<?>> rules=new ArrayList<IProductionRule<?>>();
@@ -98,9 +100,10 @@ public class ChainedProductionRule<T extends ICodeElement> implements IProductio
 		return sb.toString();
 	}
 	
-	public static ChainedProductionRule fromXml(FromXmlFactory f,Element e)
+//	public static ChainedProductionRule fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		ChainedProductionRule cpr = new ChainedProductionRule();
+//		ChainedProductionRule cpr = new ChainedProductionRule();
 		NodeList nl = e.getChildNodes();
 		for(int i=0;i<nl.getLength();i++)
 		{
@@ -108,10 +111,11 @@ public class ChainedProductionRule<T extends ICodeElement> implements IProductio
 			{
 			Element ei = (Element)(nl.item(i));
 			IProductionRule pr = (IProductionRule)(f.fromXml(ei));
-			cpr=cpr.chain(pr);
+//			cpr=cpr.chain(pr);
+			chain(pr);
 			}
 		};
-		return cpr;
+//		return cpr;
 	}
 
 	public void remove(IProductionRule prFils) {

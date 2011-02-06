@@ -5,18 +5,18 @@ import java.util.Set;
 
 import org.jarco.collections.ImmutableNamedList;
 import org.jarco.collections.ImmutableNamedSet;
-import org.jarco.control.report.Indent;
-import org.jarco.control.report.TagReport;
-import org.jarco.control.specifications.model.FM;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.control.report.ITagReport;
+import org.jarco.control.report.filesystem.Indent;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -40,7 +40,7 @@ public class TagRepositoryInternal implements ITagRepository, IExposableAsANode{
 		return tag;
 	}
 
-	public void report(TagReport tgr)
+	public void report(ITagReport tgr)
 	{
 		tgr.writeTagSection();
 		for(ITagType tty : getTagTypes())
@@ -50,6 +50,7 @@ public class TagRepositoryInternal implements ITagRepository, IExposableAsANode{
 			{
 				tgr.writeTag(t);
 			}
+			tgr.popType();
 		}
 		tgr.writeAssociationSection();
 		for(ITagAssociationType tat:getTagAssociationTypes())
@@ -62,7 +63,9 @@ public class TagRepositoryInternal implements ITagRepository, IExposableAsANode{
 				{
 					tgr.writeRole(as.getRole(trt));
 				}
+				tgr.popAssociation();
 			}
+			tgr.popAssociationType();
 		}
 		tgr.close();
 	}
@@ -87,27 +90,26 @@ public class TagRepositoryInternal implements ITagRepository, IExposableAsANode{
 	private Set<ITagAssociationType> hs_associations = new HashSet<ITagAssociationType>();
  */
 
-	public static TagRepositoryInternal fromXml(FromXmlFactory f,Element e)
+//	public static TagRepositoryInternal fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		TagRepositoryInternal r= new TagRepositoryInternal();
 		NodeList nl_t = e.getElementsByTagName("tag-types").item(0).getChildNodes();
 		for(int i=0;i<nl_t.getLength();i++)
 		{
 			Element ei = (Element)(nl_t.item(i));
-			r.hs_types.add((ITagType)f.fromXml(ei));
+			this.hs_types.add((ITagType)f.fromXml(ei));
 		}
 		NodeList nl_a = e.getElementsByTagName("tag-association-types").item(0).getChildNodes();
 		for(int i=0;i<nl_a.getLength();i++)
 		{
 			Element ei = (Element)(nl_a.item(i));
-			r.hs_associations.add((ITagAssociationType)f.fromXml(ei));
+			this.hs_associations.add((ITagAssociationType)f.fromXml(ei));
 		}
-		return r;
 	}
 
 	@Override
 	public String toLabel() {
-		return toString();
+		return "<html><b>Tag repository:</b>"+hs_types.size()+" tags types & "+hs_associations.size()+" associations</html>";
 	}
 
 	@Override

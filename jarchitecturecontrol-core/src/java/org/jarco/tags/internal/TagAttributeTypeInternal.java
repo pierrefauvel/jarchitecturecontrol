@@ -1,11 +1,11 @@
 package org.jarco.tags.internal;
 
-import org.jarco.control.specifications.model.FM;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 public class TagAttributeTypeInternal implements ITagAttributeType, IExposableAsANode {
@@ -38,17 +38,16 @@ public class TagAttributeTypeInternal implements ITagAttributeType, IExposableAs
 		return "Tag Attribute "+getName();
 	}
 
-	public static TagAttributeTypeInternal fromXml(FromXmlFactory f,Element e)
+//	public static TagAttributeTypeInternal fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		String n = e.getAttribute("name");
-		TagTypeInternal tt = (TagTypeInternal)(f.peekInContext(TagTypeInternal.class));
-		TagAttributeTypeInternal tai = new TagAttributeTypeInternal(tt,n);
-		return tai;
+		name = e.getAttribute("name");
+		t = (TagTypeInternal)(f.peekInContext(TagTypeInternal.class));
 	}
 
 	@Override
 	public String toLabel() {
-		return "<html>Tag Attribute Type<b>"+name+"</b>";
+		return "<html>Tag Attribute Type<b>"+name+"</b></html>";
 	}
 
 	@Override

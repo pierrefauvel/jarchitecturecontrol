@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jarco.control.specifications.model.Specification;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ConfigurationSet implements IExposableAsANode {
+public class ConfigurationSet implements IExposableAsANode, IPersistableAsXml {
 
 	private List<Configuration> lst=new ArrayList<Configuration>();
 	
@@ -26,16 +27,17 @@ public class ConfigurationSet implements IExposableAsANode {
 		lst.add(uoFils);
 	}
 
-	  public static ConfigurationSet fromXml(FromXmlFactory f, Element e)
+	  public void fromXml(FromXmlFactory f, Element e)
+//	  public static ConfigurationSet fromXml(FromXmlFactory f, Element e)
 	  {
-		  ConfigurationSet cs=new ConfigurationSet();
+//		  ConfigurationSet cs=new ConfigurationSet();
 		  NodeList nl = e.getElementsByTagName("configuration");
 		  for(int i=0;i<nl.getLength();i++)
 		  {
 			  Element ei = (Element)(nl.item(i));
-			  cs.add((Configuration)(f.fromXml(ei)));
+			  this.add((Configuration)(f.fromXml(ei)));
 		  };
-		  return cs;
+//		  return cs;
 	  }
 	  public String toXml()
 	  {
@@ -51,6 +53,6 @@ public class ConfigurationSet implements IExposableAsANode {
 
 	@Override
 	public String toLabel() {
-		return toString();
+		return "<html><b>ConfigurationSet:</b>"+lst.size()+" configurations</html>";
 	}
 }

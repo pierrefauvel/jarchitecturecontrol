@@ -4,16 +4,17 @@ import java.util.List;
 
 import org.jarco.code.external.IClass;
 import org.jarco.code.external.ICodeElement;
-import org.jarco.control.specifications.Violation;
+import org.jarco.control.Violation;
 import org.jarco.control.specifications.itf.IAssertion;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class PredicateAssertion<T extends ICodeElement> implements IAssertion<T>, IExposableAsANode {
+public class PredicateAssertion<T extends ICodeElement> implements IAssertion<T> {
 
 	@FM(kind=kind.treenode)
 	private IPredicate<T> f;
@@ -54,7 +55,8 @@ public class PredicateAssertion<T extends ICodeElement> implements IAssertion<T>
 		return "<predicate-assertion id=\""+id+"\">" + f.toXml() + "</predicate-assertion>";
 	}
 	
-	public static PredicateAssertion fromXml(FromXmlFactory f, Element e)
+//	public static PredicateAssertion fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		String id = e.getAttribute("id");
 		NodeList nl = e.getChildNodes();
@@ -62,7 +64,9 @@ public class PredicateAssertion<T extends ICodeElement> implements IAssertion<T>
 		{
 			if(nl.item(i) instanceof Element)
 			{
-			return new PredicateAssertion(id,(IPredicate)f.fromXml((Element)(e.getChildNodes().item(i))));
+				this.id=id;
+				this.f=(IPredicate)f.fromXml((Element)(e.getChildNodes().item(i)));
+				return;
 			}
 		};
 		throw new RuntimeException("Could not find predicate child in predicate assertion "+f.dump(e));

@@ -51,6 +51,8 @@ public class TypeInternal extends ACodeElementInternal implements IType {
 	}
 
 	public ImmutableList<IType> getActualTypes() {
+		if(actualTypes==null)
+			return new ImmutableList<IType>();
 		return new ImmutableList<IType>(actualTypes);
 	}
 
@@ -165,6 +167,10 @@ public class TypeInternal extends ACodeElementInternal implements IType {
 	}
 
 	public String toString(){
+		return getLongName();
+	}
+	
+	public String toLabel(){
 		return getLongName();
 	}
 }

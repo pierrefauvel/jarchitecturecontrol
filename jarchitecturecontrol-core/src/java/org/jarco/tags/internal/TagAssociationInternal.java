@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jarco.control.specifications.model.AnnotationPredicate;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.IExposableAsANode;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRole;
 import org.jarco.tags.external.ITagRoleType;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 public class TagAssociationInternal implements ITagAssociation {

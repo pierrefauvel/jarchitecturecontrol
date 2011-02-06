@@ -21,5 +21,9 @@ public class AnnotationInternal implements IAnnotation {
 	public String toString(){
 		return "Annotation "+getName();
 	}
+	
+	public String toLabel(){
+		return "<b>@</b>"+type.getPackage().getName()+".<b>"+type.getSimpleName()+"</b>";
+	}
 
 }

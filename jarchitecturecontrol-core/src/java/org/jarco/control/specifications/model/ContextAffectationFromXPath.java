@@ -9,13 +9,14 @@ import org.jarco.code.external.ICodeElement;
 import org.jarco.code.external.IXmlElement;
 import org.jarco.control.specifications.ElementAndContext;
 import org.jarco.control.specifications.itf.IConsequence;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class ContextAffectationFromXPath<T extends ICodeElement> implements IConsequence<T>, IExposableAsANode {
+public class ContextAffectationFromXPath<T extends ICodeElement> implements IConsequence<T> {
 
 	@FM(kind=kind.component)
 	private String propertyName;
@@ -50,7 +51,8 @@ public class ContextAffectationFromXPath<T extends ICodeElement> implements ICon
 		return sb.toString();
 	}
 
-	public static ContextAffectationFromXPath fromXml (FromXmlFactory f, Element e)
+//	public static ContextAffectationFromXPath fromXml (FromXmlFactory f, Element e)
+	public void fromXml (FromXmlFactory f, Element e)
 	{
 		String pn = e.getAttribute("context-property");
 		String xpath = null;
@@ -63,7 +65,9 @@ public class ContextAffectationFromXPath<T extends ICodeElement> implements ICon
 				break loop;
 			}
 		}
-		return new ContextAffectationFromXPath(pn,xpath);
+//		return new ContextAffectationFromXPath(pn,xpath);
+		this.propertyName = pn;
+		this.str_expression = xpath;
 	}
 	
 	public String toString()

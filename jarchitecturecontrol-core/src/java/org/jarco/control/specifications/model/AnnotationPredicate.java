@@ -10,13 +10,15 @@ import org.jarco.code.external.IField;
 import org.jarco.code.external.IMethod;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Element;
 
 //TODO V2 Enrichir les annotations avec une expression calculée
-public class AnnotationPredicate<T extends ICodeElement> implements IPredicate<T>, IExposableAsANode {
+public class AnnotationPredicate<T extends ICodeElement> implements IPredicate<T> {
 
 	@FM(kind=kind.component)
 	private String annotationClassName;
@@ -79,9 +81,11 @@ public class AnnotationPredicate<T extends ICodeElement> implements IPredicate<T
 		return "<annotation-predicate annotation-class-name=\""+annotationClassName+"\" />";
 	}
 	
-	public static AnnotationPredicate fromXml(FromXmlFactory f,Element e)
+//	public static AnnotationPredicate fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		String acn = e.getAttribute("annotation-class-name");
-		return new AnnotationPredicate(acn);
+		this.annotationClassName = e.getAttribute("annotation-class-name");
+//		String acn = e.getAttribute("annotation-class-name");
+//		return new AnnotationPredicate(acn);
 	}
 }

@@ -21,18 +21,53 @@ public interface IRoadmap {
 	 * 		Résultats (rapports colorés)
 	 */
 
-	//TODO V0.1 reprendre TOUS les rapports historiques. Soit intégré à Swing Soit fichier que l'on peut ouvrir depuis Swing (ou naviguer dans, car c'est du html)
-	//TODO V0.1 rapport de contrôle : NE PAS TOUT CHARGER EN MEMOIRE. il faudrait un fichier + une vue "arbre" qui permette de ne charger que ce dont on a besoin (deferred loading)
-	//TODO V0.1 rapport de dépendencies : rapport HTML ? => fichier + visu simple en html (xslt)
-	//TODO V0.1 specification : rapport HTML => fichier + visu simple en html (xslt)
-	//TODO V0.1 tags : vision structurée swing (arbre + détail avec les attributs)
-	//TODO V0.1 violations : export xml (en utilisant la plomberie et en la généralisant) PUIS restauration par la GUI
-	//TODO V0.1 prévoir un export du résultat d'exécution dans un fichier zip (tous les rapports) + la possibilité de charger de rapport et de le consulter avec le client graphique => ajouter une étape : control => tout s'ecrit sur le systeme de fichier => je lance la visualisation graphique
+	// ------------ PRIORITE 
+
+	//TODO V0.1 virer petclinic de subversion
+	//TODO V0.1 plan de test 1 : préparer des classes fictives pour vérifier le parsing. Implémenter l'analyse à la demande. L'étendre au xml et aux properties
+	//TODO V0.1 plan de test 2 : préparer une application fictive pour vérifier l'articulation. Pomper sur bankonet, en plus simple ?  Un cas d'exception par violation possible
+	//TODO V0.1 prévoire une arborescence : data/<project>/{specification,configuration,tagrepository) + possibilité de créer / choisir un projet + import (clonage) d'un des 3 à partir d'un projet existant
+	//TODO V0.1 du coup supprimer la notion de sélection d'une configuration ET de configuration set
 	
-    //TODO V0.1 passer de 1 tag repository à N tag repository
-    //TODO V0.1 passer de 1 specification à N specifications
-    //TODO V0.1 trouver un moyen de nommer les différentes entités principales (cfg,tr,spec) => faire apparaître le nom de l'entité sélectionnée
-    //TODO V1.0 passer les fichiers xml (configuration, tag repository, specification) à 1 fichier par instance d'entité et non 1 fichier par classe d'entités
+	// ------------ ENSUITE
+
+	
+	//TODO v0.1 matérialiser la sélection
+	
+	//TODO V0.1 revoir le style de l'écran principal. Quelque chose de plus graphique, genre "processus" à la ppt
+	//TODO V0.1 revoir le style des boutons. Encadrer les icones ?
+	//TODO v0.1 ajouter icone pour les rapports et le main panel
+	
+	//TODO v0.1 mémoriser le projet en cours => le recharger par défaut (ainsi que les 3 bases)
+
+	//TODO V0.1 dissocier maven ref = la référence ET maven ref = la résolution
+
+	//TODO V0.1 améliorer tous les rapports : possibilité de filtrer ou de faire des recherche (se baser sur xpath)
+
+	//TODO V0.1 améliorer dependencies report : les noeuds "dependencies" sont moches. les supprimer ?
+	
+	//TODO V0.1 javadoc minium en anglais, en profiter pour virer le code mort
+	
+	//TODO V0.1 tooltips & aide sur tous les noeuds et tous les champs ? doc rédigée flottante ?
+
+	//TODO V0.1 prevoir la possibilité d'activer les rapports complémentaires (analysis) ? les exécuter à la demande ?
+	
+	//TODO V0.1 enregistrement auto des modifs (qd on ferme la fenetre, qd on change de noeud ds l'arbre), supprimer le bouton save
+	
+	//TODO V0.1 export/import partiel : possibilité d'exporter/importer JUSTE une instance d'entité
+
+	//TODO V0.1 copies d'écran + page "screenshots"
+	
+	//TODO V0.1 doc rédigée des tests automatisés
+	
+	// TODO v0.1 removeChild A IMPLEMENTER pour TagRepositoryModel
+
+	//------------------------------------------------------------------------------------
+	//TODO V1.0 possibilité de disabler un noeud spec (et ce qui est en dessous) + icone spécifique
+	
+	//TODO V1.0 trouver une ergonomie où les rapports sont intégrés (onglets ou autre) MAIS ouverts à la demande
+	
+	//TODO V1.0 passer les fichiers xml (configuration, tag repository, specification) à 1 fichier par instance d'entité et non 1 fichier par classe d'entités
 
 	//TODO V1.1 extensibilité : pouvoir ajouter (par conf) un type de noeud dans les spec. Alimenter la factory, le jtree à partir de cette liste dynamique
 	//TODO V1.1 packaging maven pour le build
@@ -45,7 +80,6 @@ public interface IRoadmap {
 	//TODO V1.0 résoudre les violations sur le cas d'exemple
 	//TODO V0.1 cas d'exemple : Spring Pet Clinic (finir côté présentation)
 	//TODO V1.1 mettre en place un formatage du code
-	//TODO V0.1 complêter les icones => configuration, tag editor
 	//TODO V1.1 implementer un clone "deep" en utilisant la serialization xml
 
 	//TODO V1.1 dissocier swing de la logique (en vue du pilotage via maven)

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.jarco.code.external.ICodeElement;
 import org.jarco.collections.ImmutableMap;
+import org.jarco.collections.ImmutableSet;
 
 public class ElementAndContext<T extends ICodeElement> {
 	
@@ -35,6 +36,10 @@ public class ElementAndContext<T extends ICodeElement> {
 	public String getContextProperty(String pn)
 	{
 		return context.get(pn);
+	}
+	public ImmutableSet<String> getContextPropertyNames()
+	{
+		return new ImmutableSet<String>(context.keySet());
 	}
 	
 	public String toString()

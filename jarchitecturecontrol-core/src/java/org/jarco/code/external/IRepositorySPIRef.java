@@ -25,4 +25,5 @@ public interface IRepositorySPIRef
     public String resolveProperty(String name);
 	public String getExtension();
 	public ImmutableList<IRepositorySPIRef> getDependencies() throws XPathExpressionException, SAXException, IOException;
+	public String toLabel();
 }

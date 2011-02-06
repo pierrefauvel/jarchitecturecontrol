@@ -52,6 +52,11 @@ public class XmlDocumentInternal extends ACodeElementInternal implements IXmlDoc
 		return name;
 	}
 	
+	public String toLabel()
+	{
+		return name;
+	}
+	
 	public IProject getProject() {
 		return project;
 	}

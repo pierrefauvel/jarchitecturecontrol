@@ -24,7 +24,7 @@ import org.jarco.control.specifications.model.PredicateAssertion;
 import org.jarco.control.specifications.model.Specification;
 import org.jarco.control.specifications.model.TagAffectation;
 import org.jarco.control.specifications.model.TagPredicate;
-import org.jarco.swing.tree.ModelInterface;
+import org.jarco.swing.components.ModelInterface;
 
 public class SpecificationModel implements ModelInterface{
 
@@ -158,7 +158,9 @@ public class SpecificationModel implements ModelInterface{
 		if(uo instanceof FollowAssertion) 
 		{
 		List<Object> rc=new ArrayList<Object>();
-		rc.add(((FollowAssertion)uo).getFilter());
+		FollowAssertion fa = (FollowAssertion)uo;
+		if(fa.getFilter()!=null)
+			rc.add(fa.getFilter());
 		return rc;
 		}
 		if(uo instanceof IAssertion) return EMPTY_LIST;

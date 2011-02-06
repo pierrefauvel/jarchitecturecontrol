@@ -52,6 +52,11 @@ public class PackageInternal extends ACodeElementInternal implements IPackage {
 		return "Package "+ln;
 	}
 
+	public String toLabel()
+	{
+		return ln;
+	}
+	
 	public void addProject(ProjectInternal project2) {
 		projects.add(project2);
 	}

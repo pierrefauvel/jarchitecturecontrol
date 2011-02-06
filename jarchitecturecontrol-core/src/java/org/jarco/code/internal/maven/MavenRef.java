@@ -24,25 +24,31 @@ import org.jarco.code.internal.CodeRepositoryInternal;
 import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.configuration.ConfigurationSet;
-import org.jarco.control.report.DependenciesReport;
-import org.jarco.control.specifications.model.FM;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.control.report.itf.IDependenciesReport;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.IPersistableAsXml;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class MavenRef implements IRepositorySPIRef, IExposableAsANode
+public class MavenRef implements IRepositorySPIRef, IExposableAsANode, IPersistableAsXml
 {
 	
 //	private DependenciesReport pw;
-	private static DependenciesReport pw;
+	private static IDependenciesReport pw;
 	
-	public static void registerDependenciesReport(DependenciesReport _pw)
+	public static void registerDependenciesReport(IDependenciesReport _pw)
 	{
 		pw=_pw;
+	}
+	
+	public MavenRef()
+	{
+		
 	}
 	
 //	public MavenRef(String repoPath,DependenciesReport pw)
@@ -84,7 +90,8 @@ public class MavenRef implements IRepositorySPIRef, IExposableAsANode
 	@FM(kind=FM.kind.component)
 	private String repoPath;
 
-	  public static MavenRef fromXml(FromXmlFactory f, Element e)
+	  public void fromXml(FromXmlFactory f, Element e)
+//	  public static MavenRef fromXml(FromXmlFactory f, Element e)
 	  {
 		  String repoPath = e.getAttribute("repo-path");
 		  String group = e.getAttribute("group");
@@ -92,8 +99,11 @@ public class MavenRef implements IRepositorySPIRef, IExposableAsANode
 		  String version = e.getAttribute("version");
 		  String extension = e.getAttribute("extension");
 //		  MavenRef mr = new MavenRef(repoPath,pw,group,component,version,extension);
-		  MavenRef mr = new MavenRef(repoPath,group,component,version,extension);
-		  return mr;
+			this.group=group;
+			this.component=component;
+			this.version=version;
+			this.extension=extension;
+			this.repoPath = repoPath;
 	  }
 	  public String toXml()
 	  {
@@ -285,7 +295,7 @@ public class MavenRef implements IRepositorySPIRef, IExposableAsANode
 				}
 				else
 				{
-					System.err.println("PF23 Could not find any version for "+mr+" (dependency of "+this.getPomFileName()+")");
+					pw.couldNotFindAnyVersionOfDependency(mr,this.getPomFileName());
 				}
 			}
 		}

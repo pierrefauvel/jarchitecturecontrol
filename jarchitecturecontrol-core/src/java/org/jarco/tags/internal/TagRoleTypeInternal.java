@@ -1,15 +1,15 @@
 package org.jarco.tags.internal;
 
-import org.jarco.control.specifications.model.FM;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAssociation;
 import org.jarco.tags.external.ITagAssociationType;
 import org.jarco.tags.external.ITagRole;
 import org.jarco.tags.external.ITagRoleType;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 public class TagRoleTypeInternal implements ITagRoleType, IExposableAsANode {
@@ -61,14 +61,13 @@ public class TagRoleTypeInternal implements ITagRoleType, IExposableAsANode {
 	private ITagAssociationType at;
 	private String n;
  */
-	public static TagRoleTypeInternal fromXml(FromXmlFactory f,Element e)
+//	public static TagRoleTypeInternal fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		TagRoleTypeInternal rti = new TagRoleTypeInternal();
-		rti.n = e.getAttribute("name");
+		this.n = e.getAttribute("name");
 		TagAssociationTypeInternal at = (TagAssociationTypeInternal) f.peekInContext(TagAssociationTypeInternal.class);
-		rti.at = at;
-		rti.tt = (TagTypeInternal)(f.resolveInstanceByRef(TagTypeInternal.class, e.getAttribute("tag-type-name")));
-		return rti;
+		this.at = at;
+		this.tt = (TagTypeInternal)(f.resolveInstanceByRef(TagTypeInternal.class, e.getAttribute("tag-type-name")));
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class TagRoleTypeInternal implements ITagRoleType, IExposableAsANode {
 		return "<html>Tag Role Type <b>"+n+"</b></html>";
 	}
 
-	//TODO v1.1 revoir la construction du xml : il faut encoder les attributs à la XML
+	//TODO v0.1 revoir la construction du xml : il faut encoder les attributs à la XML
 	
 	@Override
 	public String toXml() {

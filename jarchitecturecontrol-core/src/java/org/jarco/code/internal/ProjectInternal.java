@@ -175,6 +175,12 @@ public class ProjectInternal extends ACodeElementInternal implements IProject {
 	{
 		return ref.getName();
 	}
+	
+	public String toLabel()
+	{
+		return "<b>"+ref.getName()+"</b> "+ref.getVersion();
+	}
+	
 	public byte[] loadClassByteCode(String className,String packageName) throws IOException {
 
 		String jarEntryName=null;

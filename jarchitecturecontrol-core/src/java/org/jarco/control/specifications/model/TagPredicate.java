@@ -7,18 +7,19 @@ import org.jarco.code.external.ICodeElement;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.collections.ImmutableNamedMap;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.persistence.SpecificationFromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagRepository;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
+import org.jarco.xml.SpecificationFromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExposableAsANode {
+public class TagPredicate<T extends ICodeElement> implements IPredicate<T> {
 
 	@FM(kind=kind.component)
 	private String[][] tagAttributes;
@@ -99,7 +100,8 @@ public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExp
 		return sb.toString();
 	}
 
-	public static TagPredicate fromXml(FromXmlFactory f, Element e)
+//	public static TagPredicate fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
 	{
 		String type = e.getAttribute("name");
 		NodeList nl = e.getChildNodes();
@@ -122,7 +124,15 @@ public class TagPredicate<T extends ICodeElement> implements IPredicate<T>, IExp
 //		}
 		if(ttype==null)
 			throw new RuntimeException("Could not find tag type "+type+ "in "+f.dump(e)+" "+repo.getTagTypes());
-		return new TagPredicate(ttype,nv);
+
+		this.ty=ttype;
+		this.tagAttributes=nv;
+		for(String[] ai : tagAttributes)
+		{
+			ITagAttributeType a = ty.getAttributes().get(ai[0]);
+			if(a==null) throw new RuntimeException("PF57 Unexpected attribute "+ai[0]+" in type "+ty);
+		};
+		
 	}
 
 }

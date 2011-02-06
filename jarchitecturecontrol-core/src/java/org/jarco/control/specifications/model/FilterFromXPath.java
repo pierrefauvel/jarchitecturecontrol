@@ -6,13 +6,14 @@ import java.util.Map;
 import org.jarco.code.external.IXmlElement;
 import org.jarco.collections.ImmutableMap;
 import org.jarco.control.specifications.itf.IPredicate;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 
 //TODO V1.1 Dé-dupliquer avec NamePredicate
-public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IExposableAsANode {
+public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T> {
 
 	@FM(kind=kind.component)
 	private String xpath;
@@ -92,20 +93,29 @@ public class FilterFromXPath<T extends IXmlElement> implements IPredicate<T>, IE
 			return "<html><b>xpath</b>="+xpath+" <b>prefix</b>="+prefix+" <b>variable-name</b>="+variableName+" <b>suffix</b>="+suffix+"</html>";
 	}
 
-	public static FilterFromXPath fromXml(FromXmlFactory f, Element e)
+	public void fromXml(FromXmlFactory f, Element e)
+//	public static FilterFromXPath fromXml(FromXmlFactory f, Element e)
 	{
 		String name = e.getAttribute("name");
 		String xpath = e.getAttribute("xpath");
 		if(name!=null)
 		{
-			return new FilterFromXPath(xpath,name);
+			this.xpath=xpath;
+			this.prefix=null;
+			this.variableName=null;
+			this.suffix=null;
+			this.exactMatch=exactMatch;
 		}
 		else
 		{
 			String name_prefix = e.getAttribute("name-prefix");
 			String variable_name = e.getAttribute("variable-name");
 			String suffix = e.getAttribute("suffix");
-			return new FilterFromXPath(xpath,name_prefix,variable_name,suffix);
+			this.xpath=xpath;
+			this.prefix=prefix;
+			this.variableName=variableName;
+			this.suffix=suffix;
+			this.exactMatch=null;
 		}
 	}
 }

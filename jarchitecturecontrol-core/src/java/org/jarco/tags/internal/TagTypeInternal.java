@@ -6,13 +6,13 @@ import java.util.List;
 import org.jarco.code.external.ICodeElement;
 import org.jarco.collections.ImmutableList;
 import org.jarco.collections.ImmutableNamedList;
-import org.jarco.control.specifications.model.FM;
-import org.jarco.control.specifications.model.FM.kind;
-import org.jarco.persistence.FromXmlFactory;
-import org.jarco.swing.tree.IExposableAsANode;
+import org.jarco.swing.components.FM;
+import org.jarco.swing.components.IExposableAsANode;
+import org.jarco.swing.components.FM.kind;
 import org.jarco.tags.external.ITag;
 import org.jarco.tags.external.ITagAttributeType;
 import org.jarco.tags.external.ITagType;
+import org.jarco.xml.FromXmlFactory;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -97,22 +97,22 @@ public class TagTypeInternal implements ITagType, IExposableAsANode {
 		sb.append("</tag-type-internal>");
 		return sb.toString();
 	}
-	public static TagTypeInternal fromXml(FromXmlFactory f,Element e)
+//	public static TagTypeInternal fromXml(FromXmlFactory f,Element e)
+	public void fromXml(FromXmlFactory f,Element e)
 	{
-		TagTypeInternal tai = new TagTypeInternal();
+//		TagTypeInternal tai = new TagTypeInternal();
 		String tn = e.getAttribute("name");
-		tai.name=tn;
-		f.pushInContext(tai);
+		this.name=tn;
+		f.pushInContext(this);
 		NodeList nl = e.getElementsByTagName("tag-attribute-types").item(0).getChildNodes();
 		for(int i=0;i<nl.getLength();i++)
 		{
 			Element ei = (Element)(nl.item(i));
 			TagAttributeTypeInternal ati = (TagAttributeTypeInternal)(f.fromXml(ei));
-			tai.ls_attributes.add(ati);
+			this.ls_attributes.add(ati);
 		}
 		f.popFromContext(TagTypeInternal.class);
-		f.registerInstanceByRef(tai, tai.name);
-		return tai;
+		f.registerInstanceByRef(this, this.name);
 	}
 
 
